@@ -13,7 +13,7 @@ const DEFAULT_ASSETS = [
   { no:12, kode:'02.03.12.05.0078', nama:'Komputer Desktop', kib:'KIB B', merk:'ASUS', ukuran:'Core i5', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2024, jumlah:10, nilai:'Rp 85.000.000', kondisi:'Baik', skpd:'Dinas Pendidikan' }
 ];
 
-let ASSETS = JSON.parse(localStorage.getItem('assets')) || DEFAULT_ASSETS;
+let ASSETS = []; let filteredAssets = []; = [];
 let currentDetailAsset = null;
 let exportOrientation = 'portrait';
 
@@ -1001,12 +1001,36 @@ function renderDashboardOpdLabel() {
     labelEl.textContent = '63 SKPD · Kab. Wajo';
   }
 }
+async function loadAssetsFromJson() {
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadTheme();
-  renderInventarisTable();
-  renderCategoryAset();
-  renderTopOpd();
-  renderDashboardOpdLabel();
-  updateTotalAssetBadge();
+    try {
+
+        const response = await fetch('assets.json');
+
+        const data = await response.json();
+
+        ASSETS = data;
+
+        filteredAssets = [...ASSETS];
+
+        renderInventarisTable();
+        renderCategoryAset();
+        renderTopOpd();
+        renderDashboardOpdLabel();
+        updateTotalAssetBadge();
+
+        console.log(`Loaded ${ASSETS.length} assets`);
+
+    } catch (err) {
+
+        console.error('Gagal memuat assets.json', err);
+
+    }
+}
+document.addEventListener('DOMContentLoaded', async () => {
+
+    loadTheme();
+
+    await loadAssetsFromJson();
+
 });
