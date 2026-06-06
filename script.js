@@ -1005,8 +1005,7 @@ async function loadAssetsFromJson() {
 
     try {
 
-        const response = await fetch('assets.json');
-
+        const response = await fetch('/simda-bmd/assets.json');
         const data = await response.json();
 
         ASSETS = data;
