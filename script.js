@@ -13,7 +13,7 @@ const DEFAULT_ASSETS = [
   { no:12, kode:'02.03.12.05.0078', nama:'Komputer Desktop', kib:'KIB B', merk:'ASUS', ukuran:'Core i5', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2024, jumlah:10, nilai:'Rp 85.000.000', kondisi:'Baik', skpd:'Dinas Pendidikan' }
 ];
 
-let ASSETS = []; let filteredAssets = []; = [];
+let ASSETS = []; let filteredAssets = [];
 let currentDetailAsset = null;
 let exportOrientation = 'portrait';
 
