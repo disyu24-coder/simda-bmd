@@ -49,7 +49,7 @@
       <div class="login-form">
         <div class="login-field opd-field" id="opdField">
           <div class="login-label">Nama OPD / SKPD</div>
-          <div class="login-input-wrap"><span class="login-input-icon">🏢</span><select class="login-select" id="loginOpd"><option value="">— Pilih OPD / SKPD —</option><option>Dinas Pendidikan & Kebudayaan</option><option>Dinas Kesehatan</option><option>BPKAD</option><option>Dinas Pekerjaan Umum</option><option>Sekretariat Daerah Kab. Wajo</option><option>Dinas Perhubungan</option><option>Dinas Sosial</option></select></div>
+          <div class="login-input-wrap"><span class="login-input-icon">🏢</span><select class="login-select" id="loginOpd"><option value="">— Pilih OPD / SKPD —</option><option>Dinas Pendidikan & Kebudayaan</option><option>Dinas Kesehatan</option><option>BPKPD</option><option>Dinas Pekerjaan Umum</option><option>Sekretariat Daerah Kab. Wajo</option><option>Dinas Perhubungan</option><option>Dinas Sosial</option></select></div>
         </div>
         <div class="login-field">
           <div class="login-label">Nama Pengguna</div>
@@ -62,7 +62,7 @@
         <div class="login-error" id="loginError">⚠️ <span id="loginErrorMsg">Nama pengguna atau kata sandi salah.</span></div>
         <button class="login-btn" onclick="doLogin()">Masuk ke Sistem →</button>
       </div>
-      <div class="login-footer-text">SIMDA-BMD v3.2.1 · BPKAD Kabupaten Wajo<br>Demo — Admin: <b>admin</b> / <b>admin123</b> &nbsp;|&nbsp; Tamu: <b>tamu</b> / <b>tamu123</b></div>
+      <div class="login-footer-text">SIMDA-BMD v3.2.1 · BPKPD Kabupaten Wajo</div>
     </div>
   </div>
 </div>
@@ -87,7 +87,7 @@
     <a class="nav-item admin-only" onclick="showPage('master')"><div class="nav-icon">⚙️</div>Data Master</a>
     <a class="nav-item admin-only" onclick="showPage('pengguna')"><div class="nav-icon">👥</div>Pengguna</a>
   </nav>
-  <div class="sidebar-footer"><div class="user-card"><div class="user-avatar" id="sidebarAvatar">AD</div><div class="user-info"><div class="name" id="sidebarName">Ahmad Dani</div><div class="role" id="sidebarRole">Admin BPKAD</div></div></div></div>
+  <div class="sidebar-footer"><div class="user-card"><div class="user-avatar" id="sidebarAvatar">AD</div><div class="user-info"><div class="name" id="sidebarName">Ahmad Dani</div><div class="role" id="sidebarRole">SUPER ADMIN</div></div></div></div>
 </aside>
 
 <!-- MAIN -->
@@ -154,7 +154,7 @@
             <option value="">Semua SKPD</option>
             <option>Dinas Pendidikan</option>
             <option>Dinas Kesehatan</option>
-            <option>BPKAD</option>
+            <option>BPKPD</option>
             <option>Dinas PU</option>
             <option>Diskominfo</option>
             <option>Dinas Perhubungan</option>
@@ -207,11 +207,11 @@
     <div id="page-pengguna" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">👥 Pengguna</div></div><div style="padding:40px;text-align:center"><div>Manajemen Pengguna</div></div></div></div>
   </div>
 
-  <footer class="page-footer"><div>© 2025 <span class="footer-logo">SIMDA-BMD Kabupaten Wajo</span> · BPKAD · Pemkab Wajo</div><div>Versi 3.2.1 · Update: <strong id="lastUpdateTime">1 Juni 2025, 11:05:21 WITA</strong></div></footer>
+  <footer class="page-footer"><div>© 2025 <span class="footer-logo">SIMDA-BMD Kabupaten Wajo</span> · BPKPD · Pemkab Wajo</div><div>Versi 3.2.1 · Update: <strong id="lastUpdateTime">1 Juni 2025, 11:05:21 WITA</strong></div></footer>
 </div>
 
 <!-- MODAL TAMBAH ASET -->
-<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)"><div class="modal"><div class="modal-header"><div class="modal-title">➕ Tambah Aset Baru</div><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="form-grid"><div class="form-group"><label class="form-label">KODE BARANG *</label><input class="form-input" placeholder="02.01.02.01.0001" id="fKode"></div><div class="form-group"><label class="form-label">JENIS KIB</label><select class="form-select" id="fKib"><option>KIB A — Tanah</option><option>KIB B — Peralatan & Mesin</option><option>KIB C — Gedung & Bangunan</option><option>KIB D — Jalan & Jaringan</option><option>KIB E — Aset Lainnya</option><option>KIB F — Konstruksi Dalam Pengerjaan</option></select></div><div class="form-group full"><label class="form-label">NAMA BARANG *</label><input class="form-input" placeholder="Nama aset" id="fNama"></div><div class="form-group"><label class="form-label">MERK</label><input class="form-input" placeholder="Merk / Tipe" id="fMerk"></div><div class="form-group"><label class="form-label">UKURAN</label><input class="form-input" placeholder="Ukuran / Spesifikasi" id="fUkuran"></div><div class="form-group"><label class="form-label">RANGKA</label><input class="form-input" placeholder="No. Rangka" id="fRangka"></div><div class="form-group"><label class="form-label">NO MESIN</label><input class="form-input" placeholder="No. Mesin" id="fMesin"></div><div class="form-group"><label class="form-label">NO POLISI</label><input class="form-input" placeholder="No. Polisi" id="fPolisi"></div><div class="form-group"><label class="form-label">BPKB</label><input class="form-input" placeholder="No. BPKB" id="fBpkb"></div><div class="form-group"><label class="form-label">TAHUN</label><input class="form-input" type="number" placeholder="2025" id="fTahun"></div><div class="form-group"><label class="form-label">JUMLAH BARANG</label><input class="form-input" type="number" placeholder="1" id="fJumlah" value="1"></div><div class="form-group"><label class="form-label">NILAI PEROLEHAN (Rp)</label><input class="form-input" placeholder="0" id="fNilai"></div><div class="form-group"><label class="form-label">KONDISI</label><select class="form-select" id="fKondisi"><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div><div class="form-group full"><label class="form-label">SKPD</label><select class="form-select" id="fSkpd"><option>Dinas Pendidikan</option><option>Dinas Kesehatan</option><option>BPKAD</option><option>Dinas PU</option><option>Diskominfo</option><option>Dinas Perhubungan</option><option>Setda Wajo</option></select></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="saveAsset()">💾 Simpan</button></div></div></div>
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)"><div class="modal"><div class="modal-header"><div class="modal-title">➕ Tambah Aset Baru</div><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="form-grid"><div class="form-group"><label class="form-label">KODE BARANG *</label><input class="form-input" placeholder="02.01.02.01.0001" id="fKode"></div><div class="form-group"><label class="form-label">JENIS KIB</label><select class="form-select" id="fKib"><option>KIB A — Tanah</option><option>KIB B — Peralatan & Mesin</option><option>KIB C — Gedung & Bangunan</option><option>KIB D — Jalan & Jaringan</option><option>KIB E — Aset Lainnya</option><option>KIB F — Konstruksi Dalam Pengerjaan</option></select></div><div class="form-group full"><label class="form-label">NAMA BARANG *</label><input class="form-input" placeholder="Nama aset" id="fNama"></div><div class="form-group"><label class="form-label">MERK</label><input class="form-input" placeholder="Merk / Tipe" id="fMerk"></div><div class="form-group"><label class="form-label">UKURAN</label><input class="form-input" placeholder="Ukuran / Spesifikasi" id="fUkuran"></div><div class="form-group"><label class="form-label">RANGKA</label><input class="form-input" placeholder="No. Rangka" id="fRangka"></div><div class="form-group"><label class="form-label">NO MESIN</label><input class="form-input" placeholder="No. Mesin" id="fMesin"></div><div class="form-group"><label class="form-label">NO POLISI</label><input class="form-input" placeholder="No. Polisi" id="fPolisi"></div><div class="form-group"><label class="form-label">BPKB</label><input class="form-input" placeholder="No. BPKB" id="fBpkb"></div><div class="form-group"><label class="form-label">TAHUN</label><input class="form-input" type="number" placeholder="2025" id="fTahun"></div><div class="form-group"><label class="form-label">JUMLAH BARANG</label><input class="form-input" type="number" placeholder="1" id="fJumlah" value="1"></div><div class="form-group"><label class="form-label">NILAI PEROLEHAN (Rp)</label><input class="form-input" placeholder="0" id="fNilai"></div><div class="form-group"><label class="form-label">KONDISI</label><select class="form-select" id="fKondisi"><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div><div class="form-group full"><label class="form-label">SKPD</label><select class="form-select" id="fSkpd"><option>Dinas Pendidikan</option><option>Dinas Kesehatan</option><option>BPKPD</option><option>Dinas PU</option><option>Diskominfo</option><option>Dinas Perhubungan</option><option>Setda Wajo</option></select></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="saveAsset()">💾 Simpan</button></div></div></div>
 <div class="detail-overlay modal-overlay" id="detailOverlay" onclick="handleDetailOverlayClick(event)">
   <div class="modal detail-modal">
     <div class="modal-header">
