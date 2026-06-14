@@ -202,8 +202,77 @@
     <div id="page-pemeliharaan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">🔧 Pemeliharaan</div></div><div style="padding:40px;text-align:center"><div>Modul Pemeliharaan</div></div></div></div>
     <div id="page-pemanfaatan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">🤝 Pemanfaatan</div></div><div style="padding:40px;text-align:center"><div>Modul Pemanfaatan</div></div></div></div>
     <div id="page-kib" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">📋 KIB</div></div><div style="padding:40px;text-align:center"><div>Kartu Inventaris Barang</div></div></div></div>
-    <div id="page-laporan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">📄 Laporan</div></div><div style="padding:40px;text-align:center"><div>Rekap & Laporan BMD</div></div></div></div>
-    <div id="page-master" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">⚙️ Data Master</div></div><div style="padding:40px;text-align:center"><div>Master Data</div></div></div></div>
+    <div id="page-laporan" style="display:none">
+      <div id="laporanMainView">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">📄 Rekap & Laporan BMD</div>
+              <div class="panel-sub" id="laporanPanelSub">Ringkasan Kartu Inventaris Barang per KIB</div>
+            </div>
+            <div class="laporan-filter admin-only">
+              <select class="filter-select" id="laporanOpdSelect" onchange="renderLaporanKib()">
+                <option value="">Semua SKPD</option>
+              </select>
+            </div>
+          </div>
+          <div class="laporan-opd-banner" id="laporanOpdBanner"></div>
+          <div class="laporan-stats" id="laporanStats"></div>
+          <div class="laporan-kib-grid" id="laporanKibGrid"></div>
+        </div>
+      </div>
+      <div id="laporanKibDetailView" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <button class="btn btn-outline" type="button" onclick="closeLaporanKibDetail()">← Kembali</button>
+              <div>
+                <div class="panel-title" id="laporanKibDetailTitle">KIB A — Tanah</div>
+                <div class="panel-sub" id="laporanKibDetailSub">Rincian barang milik daerah</div>
+              </div>
+            </div>
+          </div>
+          <div class="laporan-stats" id="laporanKibDetailStats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>NO</th><th>KODE BARANG</th><th>NAMA ASET</th><th>MERK</th><th>TAHUN</th><th>JUMLAH</th><th>NILAI PEROLEHAN</th><th>KONDISI</th></tr>
+              </thead>
+              <tbody id="laporanKibDetailBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="page-master" style="display:none">
+      <div id="masterGridView">
+        <div class="master-intro">
+          <div class="master-intro-title">Referensi Data Master</div>
+          <div class="master-intro-sub">Kelola data dasar yang digunakan di seluruh modul SIMDA-BMD</div>
+        </div>
+        <div class="master-grid" id="masterGrid"></div>
+      </div>
+      <div id="masterDetailView" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <button class="btn btn-outline" type="button" onclick="closeMasterDetail()">← Kembali</button>
+              <div>
+                <div class="panel-title" id="masterDetailTitle">SKPD / OPD</div>
+                <div class="panel-sub" id="masterDetailSub">Kelola data referensi</div>
+              </div>
+            </div>
+            <button class="btn btn-gold" type="button" onclick="openMasterForm()">+ Tambah Data</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead id="masterTableHead"></thead>
+              <tbody id="masterTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="page-pengguna" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">👥 Pengguna</div></div><div style="padding:40px;text-align:center"><div>Manajemen Pengguna</div></div></div></div>
   </div>
 
@@ -240,6 +309,19 @@
         <div class="form-group"><label class="form-label">NO POLISI</label><div class="detail-value" id="detailPolisi"></div></div>
         <div class="form-group"><label class="form-label">BPKB</label><div class="detail-value" id="detailBpkb"></div></div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="masterModalOverlay" onclick="handleMasterOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="masterModalTitle">Tambah Data</div>
+      <button class="modal-close" type="button" onclick="closeMasterForm()">✕</button>
+    </div>
+    <div class="modal-body" id="masterFormBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" type="button" onclick="closeMasterForm()">Batal</button>
+      <button class="btn btn-primary" type="button" onclick="saveMasterForm()">💾 Simpan</button>
     </div>
   </div>
 </div>

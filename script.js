@@ -21,6 +21,340 @@ function saveToStorage() {
   localStorage.setItem('assets', JSON.stringify(ASSETS));
 }
 
+const DEFAULT_MASTER_SKPD = [
+  { id: 1, kode: '04.02.01', nama: 'Dinas Pendidikan', aktif: true },
+  { id: 2, kode: '04.02.02', nama: 'Dinas Kesehatan', aktif: true },
+  { id: 3, kode: '04.01.01', nama: 'BPKPD', aktif: true },
+  { id: 4, kode: '04.02.05', nama: 'Dinas PU', aktif: true },
+  { id: 5, kode: '04.02.08', nama: 'Diskominfo', aktif: true },
+  { id: 6, kode: '04.02.06', nama: 'Dinas Perhubungan', aktif: true },
+  { id: 7, kode: '04.01.02', nama: 'Setda Wajo', aktif: true },
+  { id: 8, kode: '04.02.07', nama: 'Dinas Sosial', aktif: true }
+];
+
+const DEFAULT_MASTER_KONDISI = [
+  { id: 1, nama: 'Baik', urutan: 1, aktif: true },
+  { id: 2, nama: 'Rusak Ringan', urutan: 2, aktif: true },
+  { id: 3, nama: 'Rusak Berat', urutan: 3, aktif: true }
+];
+
+const MASTER_TYPES = {
+  skpd: {
+    icon: '🏢',
+    title: 'SKPD / OPD',
+    desc: 'Organisasi perangkat daerah pemilik aset BMD',
+    accent: '#1D4ED8'
+  },
+  kondisi: {
+    icon: '⚙️',
+    title: 'Kondisi Barang',
+    desc: 'Status fisik kondisi barang milik daerah',
+    accent: '#059669'
+  }
+};
+
+let MASTER_SKPD = JSON.parse(localStorage.getItem('masterSkpd')) || DEFAULT_MASTER_SKPD;
+let MASTER_KONDISI = JSON.parse(localStorage.getItem('masterKondisi')) || DEFAULT_MASTER_KONDISI;
+let currentMasterType = '';
+let masterEditId = null;
+
+function saveMasterStorage() {
+  localStorage.setItem('masterSkpd', JSON.stringify(MASTER_SKPD));
+  localStorage.setItem('masterKondisi', JSON.stringify(MASTER_KONDISI));
+}
+
+function getActiveSkpd() {
+  return MASTER_SKPD.filter(item => item.aktif).sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
+}
+
+function getActiveKondisi() {
+  return MASTER_KONDISI.filter(item => item.aktif).sort((a, b) => (a.urutan || 0) - (b.urutan || 0));
+}
+
+function getNextMasterId(list) {
+  return list.reduce((max, item) => Math.max(max, item.id || 0), 0) + 1;
+}
+
+function syncMasterDropdowns() {
+  const skpdNames = getActiveSkpd().map(item => item.nama);
+  const kondisiNames = getActiveKondisi().map(item => item.nama);
+
+  const loginOpd = document.getElementById('loginOpd');
+  if (loginOpd) {
+    const selected = loginOpd.value;
+    loginOpd.innerHTML = '<option value="">— Pilih OPD / SKPD —</option>' +
+      skpdNames.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+    if (selected && skpdNames.includes(selected)) loginOpd.value = selected;
+  }
+
+  const filterSkpd = document.getElementById('filterSkpd');
+  if (filterSkpd) {
+    const selected = filterSkpd.value;
+    filterSkpd.innerHTML = '<option value="">Semua SKPD</option>' +
+      skpdNames.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+    if (selected && skpdNames.includes(selected)) filterSkpd.value = selected;
+  }
+
+  const fSkpd = document.getElementById('fSkpd');
+  if (fSkpd) {
+    const selected = fSkpd.value;
+    fSkpd.innerHTML = skpdNames.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+    if (selected && skpdNames.includes(selected)) fSkpd.value = selected;
+    else if (skpdNames.length) fSkpd.value = skpdNames[0];
+  }
+
+  const filterKondisi = document.getElementById('filterKondisi');
+  if (filterKondisi) {
+    const selected = filterKondisi.value;
+    filterKondisi.innerHTML = '<option value="">Semua Kondisi</option>' +
+      kondisiNames.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+    if (selected && kondisiNames.includes(selected)) filterKondisi.value = selected;
+  }
+
+  const fKondisi = document.getElementById('fKondisi');
+  if (fKondisi) {
+    const selected = fKondisi.value;
+    fKondisi.innerHTML = kondisiNames.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+    if (selected && kondisiNames.includes(selected)) fKondisi.value = selected;
+    else if (kondisiNames.length) fKondisi.value = kondisiNames[0];
+  }
+
+  syncLaporanOpdDropdown();
+}
+
+function renderMasterGrid() {
+  const grid = document.getElementById('masterGrid');
+  if (!grid) return;
+  grid.innerHTML = Object.entries(MASTER_TYPES).map(([key, meta]) => {
+    const list = key === 'skpd' ? MASTER_SKPD : MASTER_KONDISI;
+    const activeCount = list.filter(item => item.aktif).length;
+    return `
+      <div class="master-card" style="--card-accent:${meta.accent}" onclick="openMasterDetail('${key}')">
+        <div class="master-card-icon">${meta.icon}</div>
+        <div class="master-card-title">${meta.title}</div>
+        <div class="master-card-desc">${meta.desc}</div>
+        <div class="master-card-meta">
+          <span><span class="master-card-count">${activeCount}</span> data aktif</span>
+          <span>Kelola →</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openMasterDetail(type) {
+  if (!MASTER_TYPES[type]) return;
+  currentMasterType = type;
+  masterEditId = null;
+  const meta = MASTER_TYPES[type];
+  const gridView = document.getElementById('masterGridView');
+  const detailView = document.getElementById('masterDetailView');
+  const titleEl = document.getElementById('masterDetailTitle');
+  const subEl = document.getElementById('masterDetailSub');
+  if (gridView) gridView.style.display = 'none';
+  if (detailView) detailView.style.display = '';
+  if (titleEl) titleEl.textContent = meta.icon + ' ' + meta.title;
+  if (subEl) subEl.textContent = meta.desc;
+  renderMasterTable();
+}
+
+function closeMasterDetail(resetType = true) {
+  const gridView = document.getElementById('masterGridView');
+  const detailView = document.getElementById('masterDetailView');
+  if (gridView) gridView.style.display = '';
+  if (detailView) detailView.style.display = 'none';
+  if (resetType) currentMasterType = '';
+  masterEditId = null;
+}
+
+function renderMasterTable() {
+  const head = document.getElementById('masterTableHead');
+  const body = document.getElementById('masterTableBody');
+  if (!head || !body || !currentMasterType) return;
+
+  if (currentMasterType === 'skpd') {
+    head.innerHTML = '<tr><th>NO</th><th>KODE SKPD</th><th>NAMA SKPD / OPD</th><th>STATUS</th><th>AKSI</th></tr>';
+    const rows = [...MASTER_SKPD].sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
+    body.innerHTML = rows.length ? rows.map((item, idx) => `
+      <tr>
+        <td>${idx + 1}</td>
+        <td><span class="kode-chip">${escapeHtml(item.kode)}</span></td>
+        <td><strong>${escapeHtml(item.nama)}</strong></td>
+        <td><span class="master-badge ${item.aktif ? 'aktif' : 'nonaktif'}">${item.aktif ? 'Aktif' : 'Nonaktif'}</span></td>
+        <td><div class="row-actions">
+          <button class="action-btn edit" type="button" onclick="openMasterForm(${item.id})" title="Edit">✏️</button>
+          <button class="action-btn" type="button" onclick="toggleMasterAktif(${item.id})" title="${item.aktif ? 'Nonaktifkan' : 'Aktifkan'}">${item.aktif ? '⏸️' : '▶️'}</button>
+          <button class="action-btn delete" type="button" onclick="deleteMasterItem(${item.id})" title="Hapus">🗑️</button>
+        </div></td>
+      </tr>
+    `).join('') : '<tr><td colspan="5" class="master-empty">Belum ada data SKPD</td></tr>';
+    return;
+  }
+
+  head.innerHTML = '<tr><th>NO</th><th>NAMA KONDISI</th><th>URUTAN</th><th>STATUS</th><th>AKSI</th></tr>';
+  const rows = [...MASTER_KONDISI].sort((a, b) => (a.urutan || 0) - (b.urutan || 0));
+  body.innerHTML = rows.length ? rows.map((item, idx) => `
+    <tr>
+      <td>${idx + 1}</td>
+      <td><span class="status-pill ${KONDISI_CLASS[item.nama] || 'baik'}">${escapeHtml(item.nama)}</span></td>
+      <td>${item.urutan || '-'}</td>
+      <td><span class="master-badge ${item.aktif ? 'aktif' : 'nonaktif'}">${item.aktif ? 'Aktif' : 'Nonaktif'}</span></td>
+      <td><div class="row-actions">
+        <button class="action-btn edit" type="button" onclick="openMasterForm(${item.id})" title="Edit">✏️</button>
+        <button class="action-btn" type="button" onclick="toggleMasterAktif(${item.id})" title="${item.aktif ? 'Nonaktifkan' : 'Aktifkan'}">${item.aktif ? '⏸️' : '▶️'}</button>
+        <button class="action-btn delete" type="button" onclick="deleteMasterItem(${item.id})" title="Hapus">🗑️</button>
+      </div></td>
+    </tr>
+  `).join('') : '<tr><td colspan="5" class="master-empty">Belum ada data kondisi</td></tr>';
+}
+
+function openMasterForm(id = null) {
+  masterEditId = id;
+  const modal = document.getElementById('masterModalOverlay');
+  const titleEl = document.getElementById('masterModalTitle');
+  const formBody = document.getElementById('masterFormBody');
+  if (!modal || !formBody || !currentMasterType) return;
+
+  if (currentMasterType === 'skpd') {
+    const item = id ? MASTER_SKPD.find(row => row.id === id) : null;
+    if (titleEl) titleEl.textContent = id ? '✏️ Edit SKPD / OPD' : '➕ Tambah SKPD / OPD';
+    formBody.innerHTML = `
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">KODE SKPD *</label><input class="form-input" id="mfKode" placeholder="04.02.01" value="${escapeHtml(item?.kode || '')}"></div>
+        <div class="form-group"><label class="form-label">NAMA SKPD / OPD *</label><input class="form-input" id="mfNama" placeholder="Nama SKPD" value="${escapeHtml(item?.nama || '')}"></div>
+        <div class="form-group full"><label class="form-label">STATUS</label><select class="form-select" id="mfAktif"><option value="1" ${!item || item.aktif ? 'selected' : ''}>Aktif</option><option value="0" ${item && !item.aktif ? 'selected' : ''}>Nonaktif</option></select></div>
+      </div>
+    `;
+  } else {
+    const item = id ? MASTER_KONDISI.find(row => row.id === id) : null;
+    if (titleEl) titleEl.textContent = id ? '✏️ Edit Kondisi Barang' : '➕ Tambah Kondisi Barang';
+    formBody.innerHTML = `
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">NAMA KONDISI *</label><input class="form-input" id="mfNama" placeholder="Contoh: Baik" value="${escapeHtml(item?.nama || '')}"></div>
+        <div class="form-group"><label class="form-label">URUTAN</label><input class="form-input" type="number" id="mfUrutan" placeholder="1" value="${item?.urutan ?? ''}"></div>
+        <div class="form-group"><label class="form-label">STATUS</label><select class="form-select" id="mfAktif"><option value="1" ${!item || item.aktif ? 'selected' : ''}>Aktif</option><option value="0" ${item && !item.aktif ? 'selected' : ''}>Nonaktif</option></select></div>
+      </div>
+    `;
+  }
+
+  modal.classList.add('open');
+}
+
+function closeMasterForm() {
+  const modal = document.getElementById('masterModalOverlay');
+  if (modal) modal.classList.remove('open');
+  masterEditId = null;
+}
+
+function handleMasterOverlayClick(e) {
+  if (e.target === document.getElementById('masterModalOverlay')) closeMasterForm();
+}
+
+function saveMasterForm() {
+  const aktif = document.getElementById('mfAktif')?.value === '1';
+
+  if (currentMasterType === 'skpd') {
+    const kode = document.getElementById('mfKode')?.value.trim();
+    const nama = document.getElementById('mfNama')?.value.trim();
+    if (!kode || !nama) {
+      alert('Kode dan Nama SKPD wajib diisi!');
+      return;
+    }
+    const duplicate = MASTER_SKPD.find(item =>
+      item.id !== masterEditId && (item.kode.toLowerCase() === kode.toLowerCase() || item.nama.toLowerCase() === nama.toLowerCase())
+    );
+    if (duplicate) {
+      alert('Kode atau Nama SKPD sudah digunakan.');
+      return;
+    }
+    if (masterEditId) {
+      const item = MASTER_SKPD.find(row => row.id === masterEditId);
+      if (item) {
+        item.kode = kode;
+        item.nama = nama;
+        item.aktif = aktif;
+      }
+    } else {
+      MASTER_SKPD.push({ id: getNextMasterId(MASTER_SKPD), kode, nama, aktif });
+    }
+  } else {
+    const nama = document.getElementById('mfNama')?.value.trim();
+    const urutan = parseInt(document.getElementById('mfUrutan')?.value, 10) || getNextMasterId(MASTER_KONDISI);
+    if (!nama) {
+      alert('Nama kondisi wajib diisi!');
+      return;
+    }
+    const duplicate = MASTER_KONDISI.find(item => item.id !== masterEditId && item.nama.toLowerCase() === nama.toLowerCase());
+    if (duplicate) {
+      alert('Nama kondisi sudah digunakan.');
+      return;
+    }
+    if (masterEditId) {
+      const item = MASTER_KONDISI.find(row => row.id === masterEditId);
+      if (item) {
+        item.nama = nama;
+        item.urutan = urutan;
+        item.aktif = aktif;
+      }
+    } else {
+      MASTER_KONDISI.push({ id: getNextMasterId(MASTER_KONDISI), nama, urutan, aktif });
+    }
+  }
+
+  saveMasterStorage();
+  syncMasterDropdowns();
+  renderMasterGrid();
+  renderMasterTable();
+  closeMasterForm();
+  showToast('✅ Data master berhasil disimpan!');
+}
+
+function countMasterUsage(type, value) {
+  if (type === 'skpd') return ASSETS.filter(asset => asset.skpd === value).length;
+  return ASSETS.filter(asset => asset.kondisi === value).length;
+}
+
+function toggleMasterAktif(id) {
+  const list = currentMasterType === 'skpd' ? MASTER_SKPD : MASTER_KONDISI;
+  const item = list.find(row => row.id === id);
+  if (!item) return;
+  if (item.aktif) {
+    const used = countMasterUsage(currentMasterType, item.nama);
+    if (used > 0) {
+      alert(`Data masih dipakai di ${used} aset inventaris. Tidak bisa dinonaktifkan.`);
+      return;
+    }
+  }
+  item.aktif = !item.aktif;
+  saveMasterStorage();
+  syncMasterDropdowns();
+  renderMasterGrid();
+  renderMasterTable();
+  showToast(item.aktif ? '✅ Data diaktifkan.' : '✅ Data dinonaktifkan.');
+}
+
+function deleteMasterItem(id) {
+  const list = currentMasterType === 'skpd' ? MASTER_SKPD : MASTER_KONDISI;
+  const item = list.find(row => row.id === id);
+  if (!item) return;
+  const used = countMasterUsage(currentMasterType, item.nama);
+  if (used > 0) {
+    alert(`Data masih dipakai di ${used} aset inventaris. Hapus atau ubah aset terlebih dahulu.`);
+    return;
+  }
+  if (!confirm(`Hapus "${item.nama}" dari data master?`)) return;
+  if (currentMasterType === 'skpd') {
+    MASTER_SKPD = MASTER_SKPD.filter(row => row.id !== id);
+  } else {
+    MASTER_KONDISI = MASTER_KONDISI.filter(row => row.id !== id);
+  }
+  saveMasterStorage();
+  syncMasterDropdowns();
+  renderMasterGrid();
+  renderMasterTable();
+  showToast('✅ Data master berhasil dihapus.');
+}
+
 function updateTotalAssetBadge() {
   const badge = document.getElementById('totalAssetBadge');
   if (badge) badge.textContent = ASSETS.length;
@@ -79,6 +413,158 @@ function renderCategoryAset() {
       </div>
     `;
   }).join('');
+}
+
+let currentLaporanKib = '';
+
+function getAssetKibCode(asset) {
+  return String(asset.kib || '').split(' — ')[0].trim();
+}
+
+function getLaporanOpdFilter() {
+  if (document.body.classList.contains('tamu-mode')) return currentOpd;
+  return document.getElementById('laporanOpdSelect')?.value || '';
+}
+
+function getLaporanAssets() {
+  const opd = getLaporanOpdFilter();
+  if (!opd) return ASSETS;
+  return ASSETS.filter(asset => asset.skpd === opd);
+}
+
+function getKibSummaryForLaporan(assets) {
+  const summary = KIB_CATEGORIES.map(cat => ({ ...cat, count: 0, value: 0, records: 0 }));
+  assets.forEach(asset => {
+    const category = summary.find(item => item.kib === getAssetKibCode(asset));
+    if (category) {
+      category.count += asset.jumlah || 0;
+      category.value += parseRp(asset.nilai);
+      category.records += 1;
+    }
+  });
+  return summary;
+}
+
+function syncLaporanOpdDropdown() {
+  const select = document.getElementById('laporanOpdSelect');
+  if (!select) return;
+  const selected = select.value;
+  const skpdNames = getActiveSkpd().map(item => item.nama);
+  select.innerHTML = '<option value="">Semua SKPD</option>' +
+    skpdNames.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+  if (selected === '' || skpdNames.includes(selected)) select.value = selected;
+}
+
+function renderLaporanStats(containerId, assets) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const totalRecords = assets.length;
+  const totalItems = assets.reduce((sum, asset) => sum + (asset.jumlah || 0), 0);
+  const totalValue = assets.reduce((sum, asset) => sum + parseRp(asset.nilai), 0);
+  el.innerHTML = `
+    <div class="laporan-stat"><div class="laporan-stat-label">Total Jenis Barang</div><div class="laporan-stat-value">${totalRecords}</div></div>
+    <div class="laporan-stat"><div class="laporan-stat-label">Total Unit / Jumlah</div><div class="laporan-stat-value">${totalItems}</div></div>
+    <div class="laporan-stat"><div class="laporan-stat-label">Total Nilai Perolehan</div><div class="laporan-stat-value">${formatRp(totalValue)}</div></div>
+  `;
+}
+
+function renderLaporanPage() {
+  syncLaporanOpdDropdown();
+  const banner = document.getElementById('laporanOpdBanner');
+  const panelSub = document.getElementById('laporanPanelSub');
+  const isTamu = document.body.classList.contains('tamu-mode');
+  if (banner) {
+    if (isTamu && currentOpd) {
+      banner.textContent = '🏢 OPD: ' + currentOpd;
+      banner.classList.add('show');
+    } else {
+      banner.textContent = '';
+      banner.classList.remove('show');
+    }
+  }
+  if (panelSub) {
+    panelSub.textContent = isTamu
+      ? `Ringkasan KIB untuk ${currentOpd || 'OPD Anda'}`
+      : 'Ringkasan Kartu Inventaris Barang per KIB — pilih OPD/SKPD untuk filter';
+  }
+  renderLaporanKib();
+}
+
+function renderLaporanKib() {
+  const grid = document.getElementById('laporanKibGrid');
+  if (!grid) return;
+  const assets = getLaporanAssets();
+  const opd = getLaporanOpdFilter();
+  renderLaporanStats('laporanStats', assets);
+
+  const panelSub = document.getElementById('laporanPanelSub');
+  if (panelSub && !document.body.classList.contains('tamu-mode')) {
+    panelSub.textContent = opd
+      ? `Ringkasan KIB · ${opd}`
+      : 'Ringkasan Kartu Inventaris Barang per KIB — semua SKPD';
+  }
+
+  const summary = getKibSummaryForLaporan(assets);
+  grid.innerHTML = summary.map(item => `
+    <div class="laporan-kib-card" style="--kib-color:${item.color}" onclick="openLaporanKibDetail('${item.kib}')">
+      <div class="laporan-kib-head">
+        <div class="laporan-kib-dot" style="background:${item.color}"></div>
+        <div class="laporan-kib-name">${item.name}</div>
+      </div>
+      <div class="laporan-stat-label">Nilai Perolehan</div>
+      <div class="laporan-stat-value" style="font-size:14px">${formatRp(item.value)}</div>
+      <div class="laporan-kib-meta">
+        <span><span class="laporan-kib-count">${item.records}</span> jenis · ${item.count} unit</span>
+        <span>Lihat rincian →</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openLaporanKibDetail(kib) {
+  currentLaporanKib = kib;
+  const meta = KIB_CATEGORIES.find(item => item.kib === kib);
+  const opd = getLaporanOpdFilter();
+  const assets = getLaporanAssets().filter(asset => getAssetKibCode(asset) === kib);
+  const mainView = document.getElementById('laporanMainView');
+  const detailView = document.getElementById('laporanKibDetailView');
+  const titleEl = document.getElementById('laporanKibDetailTitle');
+  const subEl = document.getElementById('laporanKibDetailSub');
+  const tbody = document.getElementById('laporanKibDetailBody');
+
+  if (mainView) mainView.style.display = 'none';
+  if (detailView) detailView.style.display = '';
+  if (titleEl) titleEl.textContent = meta ? meta.name : kib;
+  if (subEl) {
+    subEl.textContent = opd
+      ? `Rincian barang · ${opd}`
+      : 'Rincian barang · Semua SKPD';
+  }
+
+  renderLaporanStats('laporanKibDetailStats', assets);
+
+  if (tbody) {
+    tbody.innerHTML = assets.length ? assets.map((asset, idx) => `
+      <tr class="clickable-row" onclick='showAssetDetail(${JSON.stringify(asset.kode)})'>
+        <td>${idx + 1}</td>
+        <td><span class="kode-chip">${escapeHtml(asset.kode)}</span></td>
+        <td><strong>${escapeHtml(asset.nama)}</strong></td>
+        <td>${escapeHtml(asset.merk || '-')}</td>
+        <td>${asset.tahun || '-'}</td>
+        <td>${asset.jumlah || 0}</td>
+        <td class="nilai-text">${escapeHtml(asset.nilai || '-')}</td>
+        <td><span class="status-pill ${KONDISI_CLASS[asset.kondisi] || 'baik'}">${escapeHtml(asset.kondisi || '-')}</span></td>
+      </tr>
+    `).join('') : `<tr><td colspan="8" class="laporan-kib-empty">Tidak ada barang pada KIB ini</td></tr>`;
+  }
+}
+
+function closeLaporanKibDetail(resetKib = true) {
+  const mainView = document.getElementById('laporanMainView');
+  const detailView = document.getElementById('laporanKibDetailView');
+  if (mainView) mainView.style.display = '';
+  if (detailView) detailView.style.display = 'none';
+  if (resetKib) currentLaporanKib = '';
 }
 
 function updateOpdStats() {
@@ -393,6 +879,14 @@ function showPage(id) {
     renderTopOpd();
   }
   if(id === 'inventaris') renderInventarisTable();
+  if(id === 'master') {
+    closeMasterDetail(false);
+    renderMasterGrid();
+  }
+  if(id === 'laporan') {
+    closeLaporanKibDetail(false);
+    renderLaporanPage();
+  }
 }
 
 function openModal() {
@@ -998,12 +1492,15 @@ function renderDashboardOpdLabel() {
   if (currentRole === 'tamu' && currentOpd) {
     labelEl.textContent = `1 OPD · ${currentOpd}`;
   } else {
-    labelEl.textContent = '63 SKPD · Kab. Wajo';
+    const skpdCount = getActiveSkpd().length;
+    labelEl.textContent = `${skpdCount} SKPD · Kab. Wajo`;
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   loadTheme();
+  syncMasterDropdowns();
+  renderMasterGrid();
   renderInventarisTable();
   renderCategoryAset();
   renderTopOpd();
