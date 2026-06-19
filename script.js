@@ -13,12 +13,105 @@ const DEFAULT_ASSETS = [
   { no: 12, kode: '02.03.12.05.0078', nama: 'Komputer Desktop', kib: 'KIB B', merk: 'ASUS', ukuran: 'Core i5', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2024, jumlah: 10, nilai: 'Rp 85.000.000', kondisi: 'Baik', skpd: 'Dinas Pendidikan' }
 ];
 
-let ASSETS = JSON.parse(localStorage.getItem('assets')) || DEFAULT_ASSETS;
+let ASSETS = DEFAULT_ASSETS;
 let currentDetailAsset = null;
 let exportOrientation = 'portrait';
 
-function saveToStorage() {
-  localStorage.setItem('assets', JSON.stringify(ASSETS));
+// IndexedDB setup untuk penyimpanan data besar
+const DB_NAME = 'SimdaBMDDatabase';
+const DB_VERSION = 1;
+const ASSETS_STORE = 'assets';
+let db = null;
+
+function initIndexedDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      db = request.result;
+      resolve(db);
+    };
+    
+    request.onupgradeneeded = (event) => {
+      const database = event.target.result;
+      if (!database.objectStoreNames.contains(ASSETS_STORE)) {
+        database.createObjectStore(ASSETS_STORE, { keyPath: 'no' });
+      }
+    };
+  });
+}
+
+async function saveToStorage() {
+  try {
+    if (!db) await initIndexedDB();
+    
+    const transaction = db.transaction([ASSETS_STORE], 'readwrite');
+    const store = transaction.objectStore(ASSETS_STORE);
+    
+    // Clear existing data
+    await new Promise((resolve, reject) => {
+      const clearRequest = store.clear();
+      clearRequest.onsuccess = resolve;
+      clearRequest.onerror = () => reject(clearRequest.error);
+    });
+    
+    // Add all assets
+    for (const asset of ASSETS) {
+      await new Promise((resolve, reject) => {
+        const addRequest = store.add(asset);
+        addRequest.onsuccess = resolve;
+        addRequest.onerror = () => reject(addRequest.error);
+      });
+    }
+    
+    console.log('[Storage] Data berhasil disimpan ke IndexedDB:', ASSETS.length, 'aset');
+  } catch (error) {
+    console.error('[Storage] Gagal menyimpan ke IndexedDB:', error);
+    // Fallback ke localStorage untuk data kecil
+    try {
+      localStorage.setItem('assets', JSON.stringify(ASSETS));
+    } catch (e) {
+      console.error('[Storage] Gagal menyimpan ke localStorage juga:', e);
+    }
+  }
+}
+
+async function loadFromStorage() {
+  try {
+    if (!db) await initIndexedDB();
+    
+    const transaction = db.transaction([ASSETS_STORE], 'readonly');
+    const store = transaction.objectStore(ASSETS_STORE);
+    
+    const assets = await new Promise((resolve, reject) => {
+      const request = store.getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    
+    if (assets && assets.length > 0) {
+      ASSETS = assets;
+      console.log('[Storage] Data berhasil dimuat dari IndexedDB:', ASSETS.length, 'aset');
+      return true;
+    }
+  } catch (error) {
+    console.error('[Storage] Gagal memuat dari IndexedDB:', error);
+  }
+  
+  // Fallback ke localStorage
+  try {
+    const stored = localStorage.getItem('assets');
+    if (stored) {
+      ASSETS = JSON.parse(stored);
+      console.log('[Storage] Data dimuat dari localStorage fallback:', ASSETS.length, 'aset');
+      return true;
+    }
+  } catch (e) {
+    console.error('[Storage] Gagal memuat dari localStorage:', e);
+  }
+  
+  return false;
 }
 
 const DEFAULT_MASTER_SKPD = [
@@ -820,7 +913,7 @@ function editAsset(kode) {
   alert('Fitur edit untuk kode ' + kode + ' akan segera hadir.');
 }
 
-function deleteAsset(kode) {
+async function deleteAsset(kode) {
   if (confirm('Hapus aset dengan kode ' + kode + '?')) {
     const index = ASSETS.findIndex(a => a.kode === kode);
     if (index !== -1) {
@@ -828,8 +921,9 @@ function deleteAsset(kode) {
       ASSETS.forEach((a, i) => a.no = i + 1);
       updateTotalAssetBadge();
       renderTopOpd();
+      renderDashboardStats();
       filterInventaris();
-      saveToStorage();
+      await saveToStorage();
       showToast('✅ Aset berhasil dihapus!');
     }
   }
@@ -916,6 +1010,7 @@ function showPage(id) {
   if (id === 'dashboard') {
     renderCategoryAset();
     renderTopOpd();
+    renderDashboardStats();
   }
   if (id === 'inventaris') renderInventarisTable();
   if (id === 'master') {
@@ -940,7 +1035,7 @@ function handleOverlayClick(e) {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
 
-function saveAsset() {
+async function saveAsset() {
   const kode = document.getElementById('fKode')?.value.trim();
   const nama = document.getElementById('fNama')?.value.trim();
   if (!kode || !nama) {
@@ -965,9 +1060,10 @@ function saveAsset() {
     skpd: document.getElementById('fSkpd')?.value || 'Dinas Pendidikan'
   };
   ASSETS.unshift(newAsset);
-  saveToStorage();
+  await saveToStorage();
   updateTotalAssetBadge();
   renderTopOpd();
+  renderDashboardStats();
   filterInventaris();
   closeModal();
   showToast('✅ Aset "' + nama + '" berhasil ditambahkan!');
@@ -1536,6 +1632,53 @@ function renderDashboardOpdLabel() {
   }
 }
 
+function renderDashboardStats() {
+  // Total Item Aset BMD
+  const totalItems = ASSETS.reduce((sum, a) => sum + (a.jumlah || 0), 0);
+  const totalItemsEl = document.getElementById('statTotalItems');
+  if (totalItemsEl) totalItemsEl.textContent = totalItems.toLocaleString('id-ID');
+
+  // Total Nilai Aset
+  const totalValue = ASSETS.reduce((sum, a) => sum + parseRp(a.nilai), 0);
+  const totalValueEl = document.getElementById('statTotalValue');
+  if (totalValueEl) {
+    if (totalValue >= 1000000000000) {
+      totalValueEl.textContent = 'Rp ' + (totalValue / 1000000000000).toFixed(2) + 'T';
+    } else if (totalValue >= 1000000000) {
+      totalValueEl.textContent = 'Rp ' + (totalValue / 1000000000).toFixed(2) + 'M';
+    } else {
+      totalValueEl.textContent = formatRp(totalValue);
+    }
+  }
+
+  // Aset Kondisi Rusak
+  const rusakRingan = ASSETS.filter(a => a.kondisi === 'Rusak Ringan').length;
+  const rusakBerat = ASSETS.filter(a => a.kondisi === 'Rusak Berat').length;
+  const totalRusak = rusakRingan + rusakBerat;
+  const rusakEl = document.getElementById('statRusak');
+  const rusakDetailEl = document.getElementById('statRusakDetail');
+  if (rusakEl) rusakEl.textContent = totalRusak;
+  if (rusakDetailEl) rusakDetailEl.textContent = `${rusakRingan} rusak ringan · ${rusakBerat} rusak berat`;
+
+  // Pengadaan Baru (2025)
+  const currentYear = new Date().getFullYear();
+  const pengadaanBaru = ASSETS.filter(a => a.tahun === currentYear);
+  const pengadaanCount = pengadaanBaru.reduce((sum, a) => sum + (a.jumlah || 0), 0);
+  const pengadaanValue = pengadaanBaru.reduce((sum, a) => sum + parseRp(a.nilai), 0);
+  const pengadaanEl = document.getElementById('statPengadaan');
+  const pengadaanValueEl = document.getElementById('statPengadaanValue');
+  if (pengadaanEl) pengadaanEl.textContent = pengadaanCount;
+  if (pengadaanValueEl) {
+    if (pengadaanValue >= 1000000000) {
+      pengadaanValueEl.textContent = 'Nilai Rp ' + (pengadaanValue / 1000000000).toFixed(1) + ' Miliar';
+    } else if (pengadaanValue >= 1000000) {
+      pengadaanValueEl.textContent = 'Nilai Rp ' + (pengadaanValue / 1000000).toFixed(1) + ' Juta';
+    } else {
+      pengadaanValueEl.textContent = 'Nilai ' + formatRp(pengadaanValue);
+    }
+  }
+}
+
 // ─── SINKRONISASI GOOGLE SHEETS ──────────────────────────────────────────────
 
 function toggleSyncPanel() {
@@ -1548,7 +1691,12 @@ function toggleSyncPanel() {
     if (input) {
       // Isi URL tersimpan jika ada
       const savedUrl = localStorage.getItem('lastCsvUrl');
-      if (savedUrl) input.value = savedUrl;
+      if (savedUrl) {
+        input.value = savedUrl;
+      } else if (!input.value.trim()) {
+        // Isi URL default jika input kosong
+        input.value = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4s37OyznmfLgRZFGyAhy_6vVWbVHyneeJLUQ93Le3PNxmokP2E4pu_4BQewMXRpzAn-niZXbCNKgE/pub?output=csv';
+      }
       setTimeout(() => input.focus(), 100);
     }
   }
@@ -1571,39 +1719,6 @@ function showSyncModal() {
 function hideSyncModal() {
   const overlay = document.getElementById('syncProgressOverlay');
   if (overlay) overlay.classList.remove('open');
-}
-
-function loadAssetsFromIndexedDB(callback) {
-  const request = indexedDB.open('SimdaBmdDB', 1);
-  request.onsuccess = (e) => {
-    const db = e.target.result;
-    if (!db.objectStoreNames.contains('assets')) {
-      if (callback) callback(0);
-      return;
-    }
-    const transaction = db.transaction(['assets'], 'readonly');
-    const store = transaction.objectStore('assets');
-    const getAllRequest = store.getAll();
-    getAllRequest.onsuccess = (ev) => {
-      const records = ev.target.result || [];
-      if (records.length > 0) {
-        ASSETS = records;
-        saveToStorage();
-        updateTotalAssetBadge();
-        renderTopOpd();
-        renderCategoryAset();
-        renderInventarisTable();
-        renderDashboardOpdLabel();
-      }
-      if (callback) callback(records.length);
-    };
-    getAllRequest.onerror = () => {
-      if (callback) callback(0);
-    };
-  };
-  request.onerror = () => {
-    if (callback) callback(0);
-  };
 }
 
 // Konversi URL Google Sheets biasa ke URL CSV publik
@@ -1709,11 +1824,12 @@ async function _syncCsvFallback(url) {
   try {
     let response;
     try {
-      response = await fetch(url, { mode: 'cors' });
+      // Tambahkan redirect: 'follow' untuk menangani redirect Google Sheets
+      response = await fetch(url, { mode: 'cors', redirect: 'follow' });
     } catch (fetchErr) {
       // Jika CORS gagal, coba tanpa mode (browser default)
       try {
-        response = await fetch(url);
+        response = await fetch(url, { redirect: 'follow' });
       } catch (fetchErr2) {
         throw new Error(
           'Koneksi gagal: ' + fetchErr2.message + '\n\n' +
@@ -1724,6 +1840,11 @@ async function _syncCsvFallback(url) {
         );
       }
     }
+
+    // Log URL final setelah redirect
+    const finalUrl = response.url;
+    console.log('[Sync] URL asli:', url);
+    console.log('[Sync] URL final setelah redirect:', finalUrl);
 
     if (!response.ok) {
       let hint = '';
@@ -1738,6 +1859,9 @@ async function _syncCsvFallback(url) {
     // Cek tipe konten — harus text, bukan HTML login page
     const contentType = response.headers.get('content-type') || '';
     csvText = await response.text();
+
+    console.log('[Sync] Content-Type:', contentType);
+    console.log('[Sync] Panjang data CSV:', csvText.length);
 
     if (csvText.trim().startsWith('<!DOCTYPE') || csvText.trim().startsWith('<html')) {
       throw new Error(
@@ -1862,12 +1986,13 @@ async function _syncCsvFallback(url) {
     setSyncProgress('Menyimpan & memuat data...', `${parsedAssets.length.toLocaleString('id-ID')} aset siap ditampilkan`, 95);
 
     ASSETS = parsedAssets;
-    saveToStorage();
+    await saveToStorage();
     updateTotalAssetBadge();
     renderTopOpd();
     renderCategoryAset();
     renderInventarisTable();
     renderDashboardOpdLabel();
+    renderDashboardStats();
 
     cancelSync(); // reset modal
     showToast(`✅ Sinkronisasi selesai! ${parsedAssets.length.toLocaleString('id-ID')} aset berhasil dimuat.`);
@@ -1906,13 +2031,18 @@ function _parseCsvRow(line) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   loadTheme();
   syncMasterDropdowns();
   renderMasterGrid();
+  
+  // Load data dari IndexedDB terlebih dahulu
+  await loadFromStorage();
+  
   renderInventarisTable();
   renderCategoryAset();
   renderTopOpd();
   renderDashboardOpdLabel();
+  renderDashboardStats();
   updateTotalAssetBadge();
 });
