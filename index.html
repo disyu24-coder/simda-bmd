@@ -266,6 +266,7 @@
               <div class="panel-sub" id="inventarisPanelSub">Total 12 aset terdaftar · Kabupaten Wajo</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;position:relative">
+              <button class="btn btn-outline" type="button" onclick="toggleSyncPanel()">🌐 Sync Google Sheets</button>
               <button class="btn btn-outline">📥 Import Excel</button>
               <div class="export-dropdown">
                 <button class="btn btn-outline" onclick="toggleExportMenu()">📤 Export ▾</button>
@@ -282,6 +283,19 @@
                 </div>
               </div>
               <button class="btn btn-gold admin-only" onclick="openModal()">+ Tambah Aset</button>
+            </div>
+          </div>
+          <!-- PANEL SINKRONISASI GOOGLE SHEETS -->
+          <div id="syncPanel" style="display: none; padding: 16px 20px; background: var(--border-light); border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="font-weight: 700; font-size: 13px; color: var(--text);">🌐 Sinkronisasi Aset dari Google Sheets (CSV)</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <input type="text" id="csvUrlInput" class="form-input" placeholder="Masukkan URL Google Sheets CSV yang dipublikasikan..." style="flex: 1; padding: 8px 12px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text);">
+                <button class="btn btn-gold" type="button" onclick="startCsvSync()">⚡ Mulai Sinkronisasi</button>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+                <strong>Panduan Mendapatkan URL CSV:</strong> Pada file Google Sheets Anda, buka menu <strong>File</strong> &gt; <strong>Bagikan</strong> &gt; <strong>Publikasikan ke Web</strong>. Pilih tab lembar kerja Anda, ubah tipe format menjadi <strong>Nilai terpisah koma (.csv)</strong>, klik tombol <strong>Publikasikan</strong>, lalu salin tautan URL yang diberikan dan tempel pada kotak input di atas.
+              </div>
             </div>
           </div>
           <div class="filter-bar" style="padding:12px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
@@ -646,6 +660,24 @@
       <div class="modal-footer">
         <button class="btn btn-outline" type="button" onclick="closeMasterForm()">Batal</button>
         <button class="btn btn-primary" type="button" onclick="saveMasterForm()">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL PROGRESS SINKRONISASI -->
+  <div class="modal-overlay" id="syncProgressOverlay" style="z-index: 1000;">
+    <div class="modal" style="max-width: 420px; padding: 24px; text-align: center;">
+      <div class="modal-header" style="border-bottom: none; padding: 0; margin-bottom: 12px; justify-content: center;">
+        <div class="modal-title" style="font-size: 18px; font-weight: 700;">🔄 Sinkronisasi Data CSV</div>
+      </div>
+      <div class="modal-body" style="padding: 10px 0; display: flex; flex-direction: column; align-items: center;">
+        <div class="spinner" id="syncSpinner" style="margin: 0 auto 20px; width: 40px; height: 40px; border: 4px solid var(--border-light); border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div id="syncProgressMessage" style="font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text);">Menghubungkan ke database...</div>
+        <div id="syncProgressSubMessage" style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Silakan tunggu, sedang memproses data.</div>
+        
+        <!-- Progress Bar -->
+        <div style="width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden;">
+          <div id="syncProgressBar" style="width: 0%; height: 100%; background: var(--gold); transition: width 0.1s ease;"></div>
+        </div>
       </div>
     </div>
   </div>
