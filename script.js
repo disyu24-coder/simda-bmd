@@ -1,16 +1,16 @@
 const DEFAULT_ASSETS = [
-  { no:1, kode:'02.01.02.01.0001', nama:'Gedung Kantor Dinas Pendidikan', kib:'KIB C', merk:'-', ukuran:'500 m²', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2018, jumlah:1, nilai:'Rp 4.200.000.000', kondisi:'Baik', skpd:'Dinas Pendidikan' },
-  { no:2, kode:'02.06.01.01.0012', nama:'Kendaraan Dinas Roda 4 (Toyota Innova)', kib:'KIB B', merk:'Toyota', ukuran:'Innova Reborn', rangka:'MHFBE12G9K123456', mesin:'2TR-1234567', polisi:'DW 1234 AB', bpkb:'BPKB-0012345', tahun:2021, jumlah:1, nilai:'Rp 385.000.000', kondisi:'Baik', skpd:'BPKPD' },
-  { no:3, kode:'02.03.12.01.0034', nama:'Laptop Lenovo ThinkPad E14', kib:'KIB B', merk:'Lenovo', ukuran:'14"', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2023, jumlah:5, nilai:'Rp 14.500.000', kondisi:'Baik', skpd:'Dinas Kesehatan' },
-  { no:4, kode:'01.01.11.01.0005', nama:'Tanah Bangunan Puskesmas Tempe', kib:'KIB A', merk:'-', ukuran:'1.200 m²', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2005, jumlah:1, nilai:'Rp 2.100.000.000', kondisi:'Baik', skpd:'Dinas Kesehatan' },
-  { no:5, kode:'02.06.01.02.0088', nama:'Sepeda Motor Honda Beat', kib:'KIB B', merk:'Honda', ukuran:'110cc', rangka:'MH1JM1110KK123456', mesin:'JM11E1123456', polisi:'DW 5678 CD', bpkb:'BPKB-0023456', tahun:2019, jumlah:2, nilai:'Rp 21.000.000', kondisi:'Rusak Ringan', skpd:'Dinas Perhubungan' },
-  { no:6, kode:'02.07.02.03.0021', nama:'AC Split 2 PK Panasonic', kib:'KIB B', merk:'Panasonic', ukuran:'2 PK', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2020, jumlah:3, nilai:'Rp 8.400.000', kondisi:'Baik', skpd:'Setda Wajo' },
-  { no:7, kode:'02.01.02.05.0003', nama:'Gedung Puskesmas Majauleng', kib:'KIB C', merk:'-', ukuran:'400 m²', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2016, jumlah:1, nilai:'Rp 3.750.000.000', kondisi:'Rusak Ringan', skpd:'Dinas Kesehatan' },
-  { no:8, kode:'02.03.16.01.0099', nama:'Printer Canon iR-ADV', kib:'KIB B', merk:'Canon', ukuran:'A3', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2018, jumlah:1, nilai:'Rp 45.000.000', kondisi:'Rusak Berat', skpd:'BPKPD' },
-  { no:9, kode:'02.06.01.01.0031', nama:'Kendaraan Operasional Avanza', kib:'KIB B', merk:'Toyota', ukuran:'Avanza 1.5 G', rangka:'MHFBE12G9K654321', mesin:'2NR-7654321', polisi:'DW 9012 EF', bpkb:'BPKB-0034567', tahun:2020, jumlah:1, nilai:'Rp 280.000.000', kondisi:'Baik', skpd:'Dinas PU' },
-  { no:10, kode:'02.03.12.05.0112', nama:'Server Dell PowerEdge', kib:'KIB B', merk:'Dell', ukuran:'Rack 2U', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2022, jumlah:2, nilai:'Rp 185.000.000', kondisi:'Baik', skpd:'Diskominfo' },
-  { no:11, kode:'02.06.01.01.0045', nama:'Mobil Ambulance', kib:'KIB B', merk:'Isuzu', ukuran:'ELF', rangka:'ISUZU123456', mesin:'4JB1-789012', polisi:'DW 3456 GH', bpkb:'BPKB-0045678', tahun:2023, jumlah:1, nilai:'Rp 520.000.000', kondisi:'Baik', skpd:'Dinas Kesehatan' },
-  { no:12, kode:'02.03.12.05.0078', nama:'Komputer Desktop', kib:'KIB B', merk:'ASUS', ukuran:'Core i5', rangka:'-', mesin:'-', polisi:'-', bpkb:'-', tahun:2024, jumlah:10, nilai:'Rp 85.000.000', kondisi:'Baik', skpd:'Dinas Pendidikan' }
+  { no: 1, kode: '02.01.02.01.0001', nama: 'Gedung Kantor Dinas Pendidikan', kib: 'KIB C', merk: '-', ukuran: '500 m²', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2018, jumlah: 1, nilai: 'Rp 4.200.000.000', kondisi: 'Baik', skpd: 'Dinas Pendidikan' },
+  { no: 2, kode: '02.06.01.01.0012', nama: 'Kendaraan Dinas Roda 4 (Toyota Innova)', kib: 'KIB B', merk: 'Toyota', ukuran: 'Innova Reborn', rangka: 'MHFBE12G9K123456', mesin: '2TR-1234567', polisi: 'DW 1234 AB', bpkb: 'BPKB-0012345', tahun: 2021, jumlah: 1, nilai: 'Rp 385.000.000', kondisi: 'Baik', skpd: 'BPKPD' },
+  { no: 3, kode: '02.03.12.01.0034', nama: 'Laptop Lenovo ThinkPad E14', kib: 'KIB B', merk: 'Lenovo', ukuran: '14"', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2023, jumlah: 5, nilai: 'Rp 14.500.000', kondisi: 'Baik', skpd: 'Dinas Kesehatan' },
+  { no: 4, kode: '01.01.11.01.0005', nama: 'Tanah Bangunan Puskesmas Tempe', kib: 'KIB A', merk: '-', ukuran: '1.200 m²', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2005, jumlah: 1, nilai: 'Rp 2.100.000.000', kondisi: 'Baik', skpd: 'Dinas Kesehatan' },
+  { no: 5, kode: '02.06.01.02.0088', nama: 'Sepeda Motor Honda Beat', kib: 'KIB B', merk: 'Honda', ukuran: '110cc', rangka: 'MH1JM1110KK123456', mesin: 'JM11E1123456', polisi: 'DW 5678 CD', bpkb: 'BPKB-0023456', tahun: 2019, jumlah: 2, nilai: 'Rp 21.000.000', kondisi: 'Rusak Ringan', skpd: 'Dinas Perhubungan' },
+  { no: 6, kode: '02.07.02.03.0021', nama: 'AC Split 2 PK Panasonic', kib: 'KIB B', merk: 'Panasonic', ukuran: '2 PK', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2020, jumlah: 3, nilai: 'Rp 8.400.000', kondisi: 'Baik', skpd: 'Setda Wajo' },
+  { no: 7, kode: '02.01.02.05.0003', nama: 'Gedung Puskesmas Majauleng', kib: 'KIB C', merk: '-', ukuran: '400 m²', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2016, jumlah: 1, nilai: 'Rp 3.750.000.000', kondisi: 'Rusak Ringan', skpd: 'Dinas Kesehatan' },
+  { no: 8, kode: '02.03.16.01.0099', nama: 'Printer Canon iR-ADV', kib: 'KIB B', merk: 'Canon', ukuran: 'A3', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2018, jumlah: 1, nilai: 'Rp 45.000.000', kondisi: 'Rusak Berat', skpd: 'BPKPD' },
+  { no: 9, kode: '02.06.01.01.0031', nama: 'Kendaraan Operasional Avanza', kib: 'KIB B', merk: 'Toyota', ukuran: 'Avanza 1.5 G', rangka: 'MHFBE12G9K654321', mesin: '2NR-7654321', polisi: 'DW 9012 EF', bpkb: 'BPKB-0034567', tahun: 2020, jumlah: 1, nilai: 'Rp 280.000.000', kondisi: 'Baik', skpd: 'Dinas PU' },
+  { no: 10, kode: '02.03.12.05.0112', nama: 'Server Dell PowerEdge', kib: 'KIB B', merk: 'Dell', ukuran: 'Rack 2U', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2022, jumlah: 2, nilai: 'Rp 185.000.000', kondisi: 'Baik', skpd: 'Diskominfo' },
+  { no: 11, kode: '02.06.01.01.0045', nama: 'Mobil Ambulance', kib: 'KIB B', merk: 'Isuzu', ukuran: 'ELF', rangka: 'ISUZU123456', mesin: '4JB1-789012', polisi: 'DW 3456 GH', bpkb: 'BPKB-0045678', tahun: 2023, jumlah: 1, nilai: 'Rp 520.000.000', kondisi: 'Baik', skpd: 'Dinas Kesehatan' },
+  { no: 12, kode: '02.03.12.05.0078', nama: 'Komputer Desktop', kib: 'KIB B', merk: 'ASUS', ukuran: 'Core i5', rangka: '-', mesin: '-', polisi: '-', bpkb: '-', tahun: 2024, jumlah: 10, nilai: 'Rp 85.000.000', kondisi: 'Baik', skpd: 'Dinas Pendidikan' }
 ];
 
 let ASSETS = JSON.parse(localStorage.getItem('assets')) || DEFAULT_ASSETS;
@@ -618,11 +618,11 @@ function updateOpdStats() {
 }
 
 let sortedOpds = updateOpdStats();
-const KONDISI_CLASS = { 'Baik':'baik', 'Rusak Ringan':'rusak-ringan', 'Rusak Berat':'rusak-berat' };
+const KONDISI_CLASS = { 'Baik': 'baik', 'Rusak Ringan': 'rusak-ringan', 'Rusak Berat': 'rusak-berat' };
 
 function debounce(fn, delay) {
   let timer;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timer);
     timer = setTimeout(() => fn.apply(this, args), delay);
   };
@@ -649,9 +649,9 @@ function highlight(text, term) {
 
 function updateRealTimeClock() {
   const now = new Date();
-  const hours = String(now.getHours()).padStart(2,'0');
-  const minutes = String(now.getMinutes()).padStart(2,'0');
-  const seconds = String(now.getSeconds()).padStart(2,'0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
   const timeString = `${hours}:${minutes}:${seconds}`;
   const hour = now.getHours();
   let period = 'WITA';
@@ -659,8 +659,8 @@ function updateRealTimeClock() {
   else if (hour >= 10 && hour < 15) period = 'SIANG';
   else if (hour >= 15 && hour < 18) period = 'SORE';
   else if (hour >= 18 && hour < 22) period = 'MALAM';
-  const days = ['MINGGU','SENIN','SELASA','RABU','KAMIS','JUMAT','SABTU'];
-  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const days = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
+  const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
   const dayName = days[now.getDay()];
   const date = now.getDate();
   const monthName = months[now.getMonth()];
@@ -689,7 +689,7 @@ function getFilteredAssets() {
   const filterSkpd = document.getElementById('filterSkpd')?.value || '';
   const filterKib = document.getElementById('filterKib')?.value || '';
   const filterKondisi = document.getElementById('filterKondisi')?.value || '';
-  
+
   return ASSETS.filter(asset => {
     const combinedFields = [
       asset.kode,
@@ -719,14 +719,14 @@ function renderInventarisTable() {
   const searchTerm = document.getElementById('inventarisSearchInput')?.value.toLowerCase() || '';
   const totalItems = filtered.length;
   const totalPages = Math.ceil(totalItems / rowsPerPage);
-  
+
   if (currentPage < 1) currentPage = 1;
   if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-  
+
   const start = (currentPage - 1) * rowsPerPage;
   const end = start + rowsPerPage;
   const pageData = filtered.slice(start, end);
-  
+
   const panelSub = document.getElementById('inventarisPanelSub');
   if (panelSub) {
     if (filtered.length !== ASSETS.length) {
@@ -735,7 +735,7 @@ function renderInventarisTable() {
       panelSub.innerHTML = `Total ${ASSETS.length} aset terdaftar · Kabupaten Wajo`;
     }
   }
-  
+
   const tbody = document.getElementById('inventarisTableBody');
   if (tbody) {
     tbody.innerHTML = pageData.map((a, idx) => `
@@ -760,14 +760,14 @@ function renderInventarisTable() {
       </tr>
     `).join('');
   }
-  
+
   const startNum = totalItems === 0 ? 0 : start + 1;
   const endNum = Math.min(end, totalItems);
   const infoEl = document.getElementById('paginationInfo');
   if (infoEl) {
     infoEl.textContent = totalItems === 0 ? '0 data' : `${startNum}–${endNum} dari ${totalItems} data`;
   }
-  
+
   const btnsContainer = document.getElementById('paginationBtns');
   if (btnsContainer) {
     let btnsHtml = `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.5"' : ''}>‹</button>`;
@@ -805,14 +805,14 @@ function filterInventaris() {
 
 function renderTopOpd() {
   const container = document.getElementById('topOpdContainer');
-  if(!container) return;
+  if (!container) return;
   sortedOpds = updateOpdStats();
   const maxTotal = sortedOpds[0]?.total || 1;
   container.innerHTML = sortedOpds.map((opd, idx) => {
     const percent = (opd.total / maxTotal) * 100;
     const isTop3 = idx < 3;
     const rankIcon = idx === 0 ? '👑' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : ''));
-    return `<div class="opd-rank-item"><div class="rank-number ${isTop3 ? 'special' : ''}">${idx+1}</div><div class="opd-info"><div class="opd-name">${opd.name} ${rankIcon ? `<span class="crown-icon">${rankIcon}</span>` : ''}</div><div class="opd-stats"><span class="stat-badge">📦 ${opd.total} aset</span><div class="opd-bar-container"><div class="opd-bar" style="width: ${percent}%;"></div></div></div></div><div class="opd-value">${Math.round(percent)}%</div></div>`;
+    return `<div class="opd-rank-item"><div class="rank-number ${isTop3 ? 'special' : ''}">${idx + 1}</div><div class="opd-info"><div class="opd-name">${opd.name} ${rankIcon ? `<span class="crown-icon">${rankIcon}</span>` : ''}</div><div class="opd-stats"><span class="stat-badge">📦 ${opd.total} aset</span><div class="opd-bar-container"><div class="opd-bar" style="width: ${percent}%;"></div></div></div></div><div class="opd-value">${Math.round(percent)}%</div></div>`;
   }).join('');
 }
 
@@ -821,16 +821,16 @@ function editAsset(kode) {
 }
 
 function deleteAsset(kode) {
-  if(confirm('Hapus aset dengan kode ' + kode + '?')) {
+  if (confirm('Hapus aset dengan kode ' + kode + '?')) {
     const index = ASSETS.findIndex(a => a.kode === kode);
-    if(index !== -1) {
+    if (index !== -1) {
       ASSETS.splice(index, 1);
       ASSETS.forEach((a, i) => a.no = i + 1);
       updateTotalAssetBadge();
       renderTopOpd();
       filterInventaris();
-        saveToStorage();
-        showToast('✅ Aset berhasil dihapus!');
+      saveToStorage();
+      showToast('✅ Aset berhasil dihapus!');
     }
   }
 }
@@ -877,52 +877,52 @@ function handleDetailOverlayClick(e) {
 function toggleTheme() {
   const body = document.body;
   const toggle = document.getElementById('themeToggle');
-  if(body.classList.contains('dark')) {
+  if (body.classList.contains('dark')) {
     body.classList.remove('dark');
-    if(toggle) toggle.innerHTML = '🌙';
-    localStorage.setItem('theme','light');
+    if (toggle) toggle.innerHTML = '🌙';
+    localStorage.setItem('theme', 'light');
   } else {
     body.classList.add('dark');
-    if(toggle) toggle.innerHTML = '☀️';
-    localStorage.setItem('theme','dark');
+    if (toggle) toggle.innerHTML = '☀️';
+    localStorage.setItem('theme', 'dark');
   }
 }
 
 function loadTheme() {
-  if(localStorage.getItem('theme') === 'dark') {
+  if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark');
     const toggle = document.getElementById('themeToggle');
-    if(toggle) toggle.innerHTML = '☀️';
+    if (toggle) toggle.innerHTML = '☀️';
   }
 }
 
-const PAGES = ['dashboard','inventaris','mutasi','penghapusan','penyusutan','pemeliharaan','pemanfaatan','kib','laporan','master','pengguna'];
+const PAGES = ['dashboard', 'inventaris', 'mutasi', 'penghapusan', 'penyusutan', 'pemeliharaan', 'pemanfaatan', 'kib', 'laporan', 'master', 'pengguna'];
 function showPage(id) {
   PAGES.forEach(p => {
-    const el = document.getElementById('page-'+p);
-    if(el) el.style.display = p === id ? '' : 'none';
+    const el = document.getElementById('page-' + p);
+    if (el) el.style.display = p === id ? '' : 'none';
   });
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if(event && event.currentTarget) event.currentTarget.classList.add('active');
+  if (event && event.currentTarget) event.currentTarget.classList.add('active');
   const titles = {
-    dashboard:'Dashboard', inventaris:'Data Inventaris', mutasi:'Mutasi BMD',
-    penghapusan:'Penghapusan', penyusutan:'Penyusutan', pemeliharaan:'Pemeliharaan',
-    pemanfaatan:'Pemanfaatan', kib:'KIB', laporan:'Laporan', master:'Data Master', pengguna:'Pengguna'
+    dashboard: 'Dashboard', inventaris: 'Data Inventaris', mutasi: 'Mutasi BMD',
+    penghapusan: 'Penghapusan', penyusutan: 'Penyusutan', pemeliharaan: 'Pemeliharaan',
+    pemanfaatan: 'Pemanfaatan', kib: 'KIB', laporan: 'Laporan', master: 'Data Master', pengguna: 'Pengguna'
   };
   const pageTitle = document.getElementById('pageTitle');
-  if(pageTitle) pageTitle.textContent = (titles[id] || id) + ' BMD';
+  if (pageTitle) pageTitle.textContent = (titles[id] || id) + ' BMD';
   const breadcrumbSub = document.getElementById('breadcrumbSub');
-  if(breadcrumbSub) breadcrumbSub.textContent = titles[id] || id;
-  if(id === 'dashboard') {
+  if (breadcrumbSub) breadcrumbSub.textContent = titles[id] || id;
+  if (id === 'dashboard') {
     renderCategoryAset();
     renderTopOpd();
   }
-  if(id === 'inventaris') renderInventarisTable();
-  if(id === 'master') {
+  if (id === 'inventaris') renderInventarisTable();
+  if (id === 'master') {
     closeMasterDetail(false);
     renderMasterGrid();
   }
-  if(id === 'laporan') {
+  if (id === 'laporan') {
     closeLaporanKibDetail(false);
     renderLaporanPage();
   }
@@ -930,14 +930,14 @@ function showPage(id) {
 
 function openModal() {
   const modal = document.getElementById('modalOverlay');
-  if(modal) modal.classList.add('open');
+  if (modal) modal.classList.add('open');
 }
 function closeModal() {
   const modal = document.getElementById('modalOverlay');
-  if(modal) modal.classList.remove('open');
+  if (modal) modal.classList.remove('open');
 }
 function handleOverlayClick(e) {
-  if(e.target === document.getElementById('modalOverlay')) closeModal();
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
 
 function saveAsset() {
@@ -960,7 +960,7 @@ function saveAsset() {
     bpkb: document.getElementById('fBpkb')?.value || '-',
     tahun: parseInt(document.getElementById('fTahun')?.value) || new Date().getFullYear(),
     jumlah: parseInt(document.getElementById('fJumlah')?.value) || 1,
-    nilai: 'Rp ' + (parseInt(document.getElementById('fNilai')?.value.replace(/\D/g,'')||0)).toLocaleString('id'),
+    nilai: 'Rp ' + (parseInt(document.getElementById('fNilai')?.value.replace(/\D/g, '') || 0)).toLocaleString('id'),
     kondisi: document.getElementById('fKondisi')?.value || 'Baik',
     skpd: document.getElementById('fSkpd')?.value || 'Dinas Pendidikan'
   };
@@ -970,33 +970,33 @@ function saveAsset() {
   renderTopOpd();
   filterInventaris();
   closeModal();
-  showToast('✅ Aset "'+nama+'" berhasil ditambahkan!');
-  
-  const fields = ['fKode','fNama','fMerk','fUkuran','fRangka','fMesin','fPolisi','fBpkb','fTahun','fJumlah','fNilai'];
+  showToast('✅ Aset "' + nama + '" berhasil ditambahkan!');
+
+  const fields = ['fKode', 'fNama', 'fMerk', 'fUkuran', 'fRangka', 'fMesin', 'fPolisi', 'fBpkb', 'fTahun', 'fJumlah', 'fNilai'];
   fields.forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.value = '';
+    if (el) el.value = '';
   });
   const kondisiEl = document.getElementById('fKondisi');
-  if(kondisiEl) kondisiEl.value = 'Baik';
+  if (kondisiEl) kondisiEl.value = 'Baik';
   const skpdEl = document.getElementById('fSkpd');
-  if(skpdEl) skpdEl.value = 'Dinas Pendidikan';
+  if (skpdEl) skpdEl.value = 'Dinas Pendidikan';
   const kibEl = document.getElementById('fKib');
-  if(kibEl) kibEl.value = 'KIB B — Peralatan & Mesin';
+  if (kibEl) kibEl.value = 'KIB B — Peralatan & Mesin';
   const jumlahEl = document.getElementById('fJumlah');
-  if(jumlahEl) jumlahEl.value = '1';
+  if (jumlahEl) jumlahEl.value = '1';
 }
 
 function showToast(msg) {
   const t = document.getElementById('toast');
-  if(t) {
+  if (t) {
     t.textContent = msg;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 }
 
-const USERS = { admin: { pass:'admin123', role:'admin', nama:'SUPER ADMIN', avatar:'AD' }, tamu: { pass:'tamu123', role:'tamu', nama:'Pengguna Tamu', avatar:'TM' } };
+const USERS = { admin: { pass: 'admin123', role: 'admin', nama: 'SUPER ADMIN', avatar: 'AD' }, tamu: { pass: 'tamu123', role: 'tamu', nama: 'Pengguna Tamu', avatar: 'TM' } };
 let currentRole = 'admin';
 let currentOpd = '';
 
@@ -1006,22 +1006,22 @@ function switchRole(role) {
   const tabTamu = document.getElementById('tabTamu');
   const opdField = document.getElementById('opdField');
   const loginError = document.getElementById('loginError');
-  if(tabAdmin) tabAdmin.classList.toggle('active', role==='admin');
-  if(tabTamu) tabTamu.classList.toggle('active', role==='tamu');
-  if(opdField) opdField.classList.toggle('visible', role==='tamu');
-  if(loginError) loginError.classList.remove('show');
+  if (tabAdmin) tabAdmin.classList.toggle('active', role === 'admin');
+  if (tabTamu) tabTamu.classList.toggle('active', role === 'tamu');
+  if (opdField) opdField.classList.toggle('visible', role === 'tamu');
+  if (loginError) loginError.classList.remove('show');
 }
 
 function togglePass() {
   const inp = document.getElementById('loginPass');
   const tog = document.getElementById('passToggle');
-  if(inp && tog) {
-    if(inp.type === 'password') {
-      inp.type='text';
-      tog.textContent='🙈';
+  if (inp && tog) {
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      tog.textContent = '🙈';
     } else {
-      inp.type='password';
-      tog.textContent='👁️';
+      inp.type = 'password';
+      tog.textContent = '👁️';
     }
   }
 }
@@ -1032,42 +1032,42 @@ function doLogin() {
   const opd = document.getElementById('loginOpd')?.value || '';
   const errEl = document.getElementById('loginError');
   const errMsg = document.getElementById('loginErrorMsg');
-  if(errEl) errEl.classList.remove('show');
+  if (errEl) errEl.classList.remove('show');
   if (currentRole === 'tamu' && !opd) {
-    if(errMsg) errMsg.textContent = 'Pilih OPD terlebih dahulu.';
-    if(errEl) errEl.classList.add('show');
+    if (errMsg) errMsg.textContent = 'Pilih OPD terlebih dahulu.';
+    if (errEl) errEl.classList.add('show');
     return;
   }
   if (!user || !pass) {
-    if(errMsg) errMsg.textContent = 'Isi nama pengguna dan kata sandi.';
-    if(errEl) errEl.classList.add('show');
+    if (errMsg) errMsg.textContent = 'Isi nama pengguna dan kata sandi.';
+    if (errEl) errEl.classList.add('show');
     return;
   }
   const found = USERS[user];
   if (!found || found.pass !== pass || found.role !== currentRole) {
-    if(errMsg) errMsg.textContent = 'Nama pengguna atau kata sandi salah.';
-    if(errEl) errEl.classList.add('show');
+    if (errMsg) errMsg.textContent = 'Nama pengguna atau kata sandi salah.';
+    if (errEl) errEl.classList.add('show');
     return;
   }
   const loading = document.getElementById('loginLoading');
-  if(loading) loading.classList.add('show');
+  if (loading) loading.classList.add('show');
   setTimeout(() => {
     const displayName = currentRole === 'tamu' ? opd : found.nama;
-    const roleLabel = currentRole === 'tamu' ? (opd.length>25?opd.substring(0,22)+'…':opd) : 'SUPER ADMIN';
+    const roleLabel = currentRole === 'tamu' ? (opd.length > 25 ? opd.substring(0, 22) + '…' : opd) : 'SUPER ADMIN';
     const sidebarAvatar = document.getElementById('sidebarAvatar');
     const sidebarName = document.getElementById('sidebarName');
     const sidebarRole = document.getElementById('sidebarRole');
     const topbarBadge = document.getElementById('topbarRoleBadge');
-    if(sidebarAvatar) sidebarAvatar.textContent = found.avatar;
-    if(sidebarName) sidebarName.textContent = displayName.length>30?displayName.substring(0,27)+'…':displayName;
-    if(sidebarRole) sidebarRole.textContent = roleLabel;
-    if(topbarBadge) {
+    if (sidebarAvatar) sidebarAvatar.textContent = found.avatar;
+    if (sidebarName) sidebarName.textContent = displayName.length > 30 ? displayName.substring(0, 27) + '…' : displayName;
+    if (sidebarRole) sidebarRole.textContent = roleLabel;
+    if (topbarBadge) {
       if (currentRole === 'admin') {
         topbarBadge.className = 'role-badge admin';
         topbarBadge.textContent = '🔐 Admin';
       } else {
         topbarBadge.className = 'role-badge tamu';
-        topbarBadge.textContent = '👤 ' + (opd.length>20?opd.substring(0,17)+'…':opd);
+        topbarBadge.textContent = '👤 ' + (opd.length > 20 ? opd.substring(0, 17) + '…' : opd);
       }
     }
     const adminOnly = document.querySelectorAll('.admin-only');
@@ -1081,11 +1081,11 @@ function doLogin() {
     }
     renderInventarisTable();
     const loginPage = document.getElementById('loginPage');
-    if(loginPage) loginPage.classList.add('hidden');
-    if(loading) loading.classList.remove('show');
+    if (loginPage) loginPage.classList.add('hidden');
+    if (loading) loading.classList.remove('show');
     renderDashboardOpdLabel();
-    showToast('✅ Selamat datang, ' + (currentRole==='admin'?found.nama:(opd.split('(')[0].trim()||opd)) + '!');
-    if(document.getElementById('page-dashboard').style.display !== 'none') renderTopOpd();
+    showToast('✅ Selamat datang, ' + (currentRole === 'admin' ? found.nama : (opd.split('(')[0].trim() || opd)) + '!');
+    if (document.getElementById('page-dashboard').style.display !== 'none') renderTopOpd();
   }, 500);
 }
 
@@ -1374,7 +1374,7 @@ function exportPdf() {
     </tr>
   `).join('');
   const now = new Date();
-  const formattedDate = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+  const formattedDate = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
   const content = `
     <div>Dokumen export Inventaris BMD — ${formattedDate}</div>
     <table>
@@ -1408,7 +1408,7 @@ function exportCsv() {
     alert('Tidak ada data inventaris untuk diekspor.');
     return;
   }
-  const headers = ['KODE BARANG','NAMA ASET','KIB','NO SERTIFIKAT','MERK','UKURAN','TAHUN','JUMLAH','NILAI PEROLEHAN','NILAI BUKU','KONDISI','SKPD'];
+  const headers = ['KODE BARANG', 'NAMA ASET', 'KIB', 'NO SERTIFIKAT', 'MERK', 'UKURAN', 'TAHUN', 'JUMLAH', 'NILAI PEROLEHAN', 'NILAI BUKU', 'KONDISI', 'SKPD'];
   const rows = assets.map(asset => [
     asset.kode,
     asset.nama,
@@ -1429,7 +1429,7 @@ function exportCsv() {
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = `inventaris-${new Date().toISOString().slice(0,10)}.csv`;
+  link.download = `inventaris-${new Date().toISOString().slice(0, 10)}.csv`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1443,7 +1443,7 @@ function exportXlsx() {
     alert('Tidak ada data inventaris untuk diekspor.');
     return;
   }
-  const headers = ['KODE BARANG','NAMA ASET','KIB','NO SERTIFIKAT','MERK','UKURAN','TAHUN','JUMLAH','NILAI PEROLEHAN','NILAI BUKU','KONDISI','SKPD'];
+  const headers = ['KODE BARANG', 'NAMA ASET', 'KIB', 'NO SERTIFIKAT', 'MERK', 'UKURAN', 'TAHUN', 'JUMLAH', 'NILAI PEROLEHAN', 'NILAI BUKU', 'KONDISI', 'SKPD'];
   const rows = assets.map(asset => [
     formatExportValue(asset.kode),
     formatExportValue(asset.nama),
@@ -1461,7 +1461,7 @@ function exportXlsx() {
   const blob = buildXlsxBlob(headers, rows);
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = `inventaris-${new Date().toISOString().slice(0,10)}.xlsx`;
+  link.download = `inventaris-${new Date().toISOString().slice(0, 10)}.xlsx`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1512,12 +1512,12 @@ function doLogout() {
   const loginPass = document.getElementById('loginPass');
   const loginOpd = document.getElementById('loginOpd');
   const loginError = document.getElementById('loginError');
-  if(loginPage) loginPage.classList.remove('hidden');
-  if(loading) loading.classList.remove('show');
-  if(loginUser) loginUser.value = '';
-  if(loginPass) loginPass.value = '';
-  if(loginOpd) loginOpd.value = '';
-  if(loginError) loginError.classList.remove('show');
+  if (loginPage) loginPage.classList.remove('hidden');
+  if (loading) loading.classList.remove('show');
+  if (loginUser) loginUser.value = '';
+  if (loginPass) loginPass.value = '';
+  if (loginOpd) loginOpd.value = '';
+  if (loginError) loginError.classList.remove('show');
   document.body.classList.remove('tamu-mode');
   currentOpd = '';
   switchRole('admin');
@@ -1535,6 +1535,376 @@ function renderDashboardOpdLabel() {
     labelEl.textContent = `${skpdCount} SKPD · Kab. Wajo`;
   }
 }
+
+// ─── SINKRONISASI GOOGLE SHEETS ──────────────────────────────────────────────
+
+function toggleSyncPanel() {
+  const panel = document.getElementById('syncPanel');
+  if (!panel) return;
+  const isVisible = panel.style.display !== 'none';
+  panel.style.display = isVisible ? 'none' : 'block';
+  if (!isVisible) {
+    const input = document.getElementById('csvUrlInput');
+    if (input) {
+      // Isi URL tersimpan jika ada
+      const savedUrl = localStorage.getItem('lastCsvUrl');
+      if (savedUrl) input.value = savedUrl;
+      setTimeout(() => input.focus(), 100);
+    }
+  }
+}
+
+function setSyncProgress(message, subMessage, percent) {
+  const msg = document.getElementById('syncProgressMessage');
+  const sub = document.getElementById('syncProgressSubMessage');
+  const bar = document.getElementById('syncProgressBar');
+  if (msg) msg.textContent = message;
+  if (sub) sub.textContent = subMessage || '';
+  if (bar) bar.style.width = (percent || 0) + '%';
+}
+
+function showSyncModal() {
+  const overlay = document.getElementById('syncProgressOverlay');
+  if (overlay) overlay.classList.add('open');
+}
+
+function hideSyncModal() {
+  const overlay = document.getElementById('syncProgressOverlay');
+  if (overlay) overlay.classList.remove('open');
+}
+
+function loadAssetsFromIndexedDB(callback) {
+  const request = indexedDB.open('SimdaBmdDB', 1);
+  request.onsuccess = (e) => {
+    const db = e.target.result;
+    if (!db.objectStoreNames.contains('assets')) {
+      if (callback) callback(0);
+      return;
+    }
+    const transaction = db.transaction(['assets'], 'readonly');
+    const store = transaction.objectStore('assets');
+    const getAllRequest = store.getAll();
+    getAllRequest.onsuccess = (ev) => {
+      const records = ev.target.result || [];
+      if (records.length > 0) {
+        ASSETS = records;
+        saveToStorage();
+        updateTotalAssetBadge();
+        renderTopOpd();
+        renderCategoryAset();
+        renderInventarisTable();
+        renderDashboardOpdLabel();
+      }
+      if (callback) callback(records.length);
+    };
+    getAllRequest.onerror = () => {
+      if (callback) callback(0);
+    };
+  };
+  request.onerror = () => {
+    if (callback) callback(0);
+  };
+}
+
+// Konversi URL Google Sheets biasa ke URL CSV publik
+function _convertToGSheetsCsvUrl(url) {
+  // Sudah format pub CSV yang benar
+  if (url.includes('/pub') && url.includes('output=csv')) return url;
+
+  // Sudah format export CSV
+  if (url.includes('/export') && url.includes('format=csv')) return url;
+
+  // Ambil spreadsheet ID
+  const matchId = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  if (matchId) {
+    const id = matchId[1];
+    // Ambil gid (sheet tab) jika ada
+    const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
+    const gid = gidMatch ? gidMatch[1] : '0';
+    // Gunakan format /pub (tidak butuh autentikasi)
+    return `https://docs.google.com/spreadsheets/d/${id}/pub?gid=${gid}&single=true&output=csv`;
+  }
+
+  return url;
+}
+
+function startCsvSync() {
+  const urlInput = document.getElementById('csvUrlInput');
+  let url = urlInput ? urlInput.value.trim() : '';
+
+  if (!url) {
+    showSyncError('⚠️ URL kosong!', 'Masukkan URL Google Sheets CSV terlebih dahulu, lalu klik lagi.');
+    if (urlInput) urlInput.focus();
+    return;
+  }
+
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    showSyncError('⚠️ URL tidak valid', 'URL harus diawali dengan https://\nContoh: https://docs.google.com/spreadsheets/d/...');
+    return;
+  }
+
+  // Auto-konversi jika URL bukan CSV
+  const convertedUrl = _convertToGSheetsCsvUrl(url);
+  if (convertedUrl !== url) {
+    console.log('[Sync] URL dikonversi ke:', convertedUrl);
+    if (urlInput) urlInput.value = convertedUrl;
+    url = convertedUrl;
+  }
+
+  // Simpan URL terakhir
+  localStorage.setItem('lastCsvUrl', url);
+
+  // Tutup sync panel
+  const syncPanel = document.getElementById('syncPanel');
+  if (syncPanel) syncPanel.style.display = 'none';
+
+  // Tampilkan modal progress
+  showSyncModal();
+  setSyncProgress('Menghubungkan ke Google Sheets...', 'Silakan tunggu...', 5);
+
+  // Selalu gunakan fallback langsung (lebih andal untuk file://)
+  _syncCsvFallback(url);
+}
+
+// Tampilkan error di dalam modal (bukan toast biasa)
+function showSyncError(title, detail) {
+  const msg = document.getElementById('syncProgressMessage');
+  const sub = document.getElementById('syncProgressSubMessage');
+  const bar = document.getElementById('syncProgressBar');
+  const spinner = document.getElementById('syncSpinner');
+  const cancelBtn = document.getElementById('syncCancelBtn');
+
+  if (spinner) spinner.style.display = 'none';
+  if (bar) { bar.style.width = '100%'; bar.style.background = '#DC2626'; }
+  if (msg) { msg.textContent = title; msg.style.color = '#DC2626'; }
+  if (sub) {
+    sub.style.whiteSpace = 'pre-line';
+    sub.textContent = detail || 'Silakan tutup dan coba lagi.';
+  }
+  if (cancelBtn) cancelBtn.textContent = '✕ Tutup';
+
+  // Tampilkan modal jika belum terbuka
+  showSyncModal();
+}
+
+function cancelSync() {
+  hideSyncModal();
+  // Reset warna bar dan teks jika sebelumnya error
+  const bar = document.getElementById('syncProgressBar');
+  const msg = document.getElementById('syncProgressMessage');
+  const sub = document.getElementById('syncProgressSubMessage');
+  const spinner = document.getElementById('syncSpinner');
+  if (bar) { bar.style.width = '0%'; bar.style.background = ''; }
+  if (msg) { msg.textContent = 'Menghubungkan ke database...'; msg.style.color = ''; }
+  if (sub) { sub.textContent = 'Silakan tunggu, sedang memproses data.'; sub.style.whiteSpace = ''; }
+  if (spinner) spinner.style.display = '';
+}
+
+// Fetch CSV langsung di main thread (lebih andal untuk file:// protocol)
+async function _syncCsvFallback(url) {
+  setSyncProgress('Mengunduh data dari Google Sheets...', 'Menghubungi server, harap tunggu...', 10);
+
+  let csvText = '';
+
+  try {
+    let response;
+    try {
+      response = await fetch(url, { mode: 'cors' });
+    } catch (fetchErr) {
+      // Jika CORS gagal, coba tanpa mode (browser default)
+      try {
+        response = await fetch(url);
+      } catch (fetchErr2) {
+        throw new Error(
+          'Koneksi gagal: ' + fetchErr2.message + '\n\n' +
+          'Kemungkinan penyebab:\n' +
+          '• Google Sheets belum dipublikasikan ke web\n' +
+          '• Tidak ada koneksi internet\n' +
+          '• URL salah atau sudah kadaluarsa'
+        );
+      }
+    }
+
+    if (!response.ok) {
+      let hint = '';
+      if (response.status === 401 || response.status === 403) {
+        hint = '\n\nSolusi: Buka Google Sheets → File → Bagikan → Publikasikan ke Web, pilih format CSV, lalu salin URL yang diberikan.';
+      } else if (response.status === 404) {
+        hint = '\n\nSolusi: Periksa ID spreadsheet di URL sudah benar.';
+      }
+      throw new Error(`Server mengembalikan error ${response.status} (${response.statusText})` + hint);
+    }
+
+    // Cek tipe konten — harus text, bukan HTML login page
+    const contentType = response.headers.get('content-type') || '';
+    csvText = await response.text();
+
+    if (csvText.trim().startsWith('<!DOCTYPE') || csvText.trim().startsWith('<html')) {
+      throw new Error(
+        'Google mengembalikan halaman HTML, bukan file CSV.\n\n' +
+        'Solusi:\n' +
+        '1. Buka file Google Sheets Anda\n' +
+        '2. Klik menu File → Bagikan → Publikasikan ke Web\n' +
+        '3. Pilih lembar kerja & format "Nilai terpisah koma (.csv)"\n' +
+        '4. Klik Publikasikan, lalu salin URL yang muncul'
+      );
+    }
+
+    setSyncProgress('Mengurai data CSV...', 'Memproses baris demi baris...', 40);
+
+  } catch (err) {
+    showSyncError('❌ Gagal mengunduh data', err.message);
+    return;
+  }
+
+  try {
+    // Parse CSV
+    const lines = csvText.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) {
+      throw new Error('File CSV kosong atau hanya memiliki baris header.\nPastikan Google Sheets memiliki data di bawah baris judul kolom.');
+    }
+
+    const headers = _parseCsvRow(lines[0]).map(h => h.toLowerCase().trim());
+    setSyncProgress('Memetakan kolom...', `${lines.length - 1} baris ditemukan. Kolom: ${headers.slice(0, 5).join(', ')}...`, 55);
+
+    const getColIdx = (...keys) => {
+      for (const key of keys) {
+        const idx = headers.indexOf(key.toLowerCase().trim());
+        if (idx >= 0) return idx;
+      }
+      return -1;
+    };
+
+    const idxKode = getColIdx('kode barang', 'kode', 'kode_barang', 'no kode');
+    const idxNama = getColIdx('nama barang', 'nama aset', 'nama', 'nama_barang');
+    const idxKib = getColIdx('kib', 'jenis kib', 'jenis_kib', 'kategori');
+    const idxSert = getColIdx('no sertifikat', 'sertifikat', 'no_sertifikat');
+    const idxMerk = getColIdx('merk', 'merk/tipe', 'merk_tipe', 'tipe');
+    const idxUkuran = getColIdx('ukuran', 'ukuran/spesifikasi', 'spesifikasi');
+    const idxRangka = getColIdx('rangka', 'no rangka', 'no_rangka');
+    const idxMesin = getColIdx('mesin', 'no mesin', 'no_mesin');
+    const idxPolisi = getColIdx('polisi', 'no polisi', 'no_polisi', 'nopol');
+    const idxBpkb = getColIdx('bpkb', 'no bpkb', 'no_bpkb');
+    const idxTahun = getColIdx('tahun', 'tahun perolehan', 'tahun_perolehan');
+    const idxJumlah = getColIdx('jumlah', 'jumlah barang', 'qty');
+    const idxNilai = getColIdx('nilai perolehan', 'nilai', 'harga');
+    const idxNilaiBuku = getColIdx('nilai buku', 'nilaibuku');
+    const idxKondisi = getColIdx('kondisi', 'status kondisi');
+    const idxSkpd = getColIdx('skpd', 'opd', 'instansi', 'unit kerja');
+
+    const parsedAssets = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cols = _parseCsvRow(lines[i]);
+      if (!cols.length || cols.every(c => !c.trim())) continue;
+
+      const getC = (idx) => (idx >= 0 && cols[idx] != null) ? String(cols[idx]).trim() : '';
+
+      const nilaiRaw = getC(idxNilai);
+      let nilaiStr = '-';
+      if (nilaiRaw && nilaiRaw !== '-') {
+        const digits = nilaiRaw.replace(/[^0-9]/g, '');
+        if (digits) nilaiStr = 'Rp ' + parseInt(digits, 10).toLocaleString('id');
+      }
+
+      const nilaiBukuRaw = getC(idxNilaiBuku);
+      let nilaiBukuStr = '-';
+      if (nilaiBukuRaw && nilaiBukuRaw !== '-') {
+        const digits = nilaiBukuRaw.replace(/[^0-9]/g, '');
+        if (digits) nilaiBukuStr = 'Rp ' + parseInt(digits, 10).toLocaleString('id');
+      }
+
+      const kibRaw = getC(idxKib);
+      let kibNormalized = 'KIB B';
+      if (kibRaw) {
+        const match = kibRaw.match(/KIB\s*[A-F]/i);
+        if (match) kibNormalized = match[0].replace(/\s+/g, ' ').toUpperCase();
+      }
+
+      parsedAssets.push({
+        no: parsedAssets.length + 1,
+        kode: getC(idxKode) || '00.00.00.00.0000',
+        nama: getC(idxNama) || 'Aset Tanpa Nama',
+        kib: kibNormalized,
+        sertifikat: getC(idxSert) || '-',
+        merk: getC(idxMerk) || '-',
+        ukuran: getC(idxUkuran) || '-',
+        rangka: getC(idxRangka) || '-',
+        mesin: getC(idxMesin) || '-',
+        polisi: getC(idxPolisi) || '-',
+        bpkb: getC(idxBpkb) || '-',
+        tahun: parseInt(getC(idxTahun)) || new Date().getFullYear(),
+        jumlah: parseInt(getC(idxJumlah)) || 1,
+        nilai: nilaiStr,
+        nilaiBuku: nilaiBukuStr,
+        kondisi: getC(idxKondisi) || 'Baik',
+        skpd: getC(idxSkpd) || 'Dinas Pendidikan'
+      });
+
+      // Update progress setiap 50 baris
+      if (i % 50 === 0) {
+        const pct = Math.min(90, 55 + Math.round((i / lines.length) * 35));
+        setSyncProgress(
+          `Memproses baris ${i} dari ${lines.length - 1}...`,
+          `${parsedAssets.length.toLocaleString('id-ID')} aset valid ditemukan`,
+          pct
+        );
+      }
+    }
+
+    if (parsedAssets.length === 0) {
+      throw new Error(
+        'Tidak ada data valid dalam CSV.\n\n' +
+        'Pastikan nama kolom di baris pertama menggunakan salah satu nama berikut:\n' +
+        '• KODE BARANG, NAMA BARANG, KIB, MERK, TAHUN, JUMLAH, NILAI PEROLEHAN, KONDISI, SKPD'
+      );
+    }
+
+    setSyncProgress('Menyimpan & memuat data...', `${parsedAssets.length.toLocaleString('id-ID')} aset siap ditampilkan`, 95);
+
+    ASSETS = parsedAssets;
+    saveToStorage();
+    updateTotalAssetBadge();
+    renderTopOpd();
+    renderCategoryAset();
+    renderInventarisTable();
+    renderDashboardOpdLabel();
+
+    cancelSync(); // reset modal
+    showToast(`✅ Sinkronisasi selesai! ${parsedAssets.length.toLocaleString('id-ID')} aset berhasil dimuat.`);
+
+  } catch (err) {
+    showSyncError('❌ Gagal memproses CSV', err.message);
+  }
+}
+
+// Parser CSV sederhana (menangani tanda kutip dan koma/titik-koma)
+function _parseCsvRow(line) {
+  const cols = [];
+  let current = '';
+  let inQuote = false;
+  const sep = line.includes(';') && !line.includes(',') ? ';' : ',';
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuote && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuote = !inQuote;
+      }
+    } else if (ch === sep && !inQuote) {
+      cols.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  cols.push(current);
+  return cols;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
   loadTheme();

@@ -290,7 +290,7 @@
             <div style="display: flex; flex-direction: column; gap: 10px;">
               <div style="font-weight: 700; font-size: 13px; color: var(--text);">🌐 Sinkronisasi Aset dari Google Sheets (CSV)</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <input type="text" id="csvUrlInput" class="form-input" placeholder="Masukkan URL Google Sheets CSV yang dipublikasikan..." style="flex: 1; padding: 8px 12px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text);">
+                <input type="text" id="csvUrlInput" class="form-input" placeholder="Masukkan URL Google Sheets CSV yang dipublikasikan..." style="flex: 1; padding: 8px 12px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text);" onkeydown="if(event.key==='Enter') startCsvSync()">
                 <button class="btn btn-gold" type="button" onclick="startCsvSync()">⚡ Mulai Sinkronisasi</button>
               </div>
               <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
@@ -665,19 +665,19 @@
   </div>
   <!-- MODAL PROGRESS SINKRONISASI -->
   <div class="modal-overlay" id="syncProgressOverlay" style="z-index: 1000;">
-    <div class="modal" style="max-width: 420px; padding: 24px; text-align: center;">
-      <div class="modal-header" style="border-bottom: none; padding: 0; margin-bottom: 12px; justify-content: center;">
-        <div class="modal-title" style="font-size: 18px; font-weight: 700;">🔄 Sinkronisasi Data CSV</div>
+    <div class="modal" style="max-width: 440px; padding: 28px; text-align: center;">
+      <div class="modal-header" style="border-bottom: none; padding: 0; margin-bottom: 16px; justify-content: center;">
+        <div class="modal-title" style="font-size: 17px; font-weight: 700;">🔄 Sinkronisasi Google Sheets</div>
       </div>
-      <div class="modal-body" style="padding: 10px 0; display: flex; flex-direction: column; align-items: center;">
-        <div class="spinner" id="syncSpinner" style="margin: 0 auto 20px; width: 40px; height: 40px; border: 4px solid var(--border-light); border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <div id="syncProgressMessage" style="font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text);">Menghubungkan ke database...</div>
-        <div id="syncProgressSubMessage" style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Silakan tunggu, sedang memproses data.</div>
-        
+      <div class="modal-body" style="padding: 0; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div class="spinner" id="syncSpinner" style="width: 44px; height: 44px; border: 4px solid var(--border-light); border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; flex-shrink:0;"></div>
+        <div id="syncProgressMessage" style="font-weight: 700; font-size: 14px; color: var(--text); min-height: 20px;">Menghubungkan ke database...</div>
+        <div id="syncProgressSubMessage" style="font-size: 12px; color: var(--text-muted); min-height: 48px; white-space: pre-line; text-align: left; width: 100%; padding: 8px 12px; background: var(--bg-body); border-radius: 8px; line-height: 1.6;">Silakan tunggu, sedang memproses data.</div>
         <!-- Progress Bar -->
         <div style="width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden;">
-          <div id="syncProgressBar" style="width: 0%; height: 100%; background: var(--gold); transition: width 0.1s ease;"></div>
+          <div id="syncProgressBar" style="width: 0%; height: 100%; background: var(--gold); transition: width 0.3s ease; border-radius: 4px;"></div>
         </div>
+        <button id="syncCancelBtn" class="btn btn-outline" type="button" onclick="cancelSync()" style="margin-top: 4px; width: 100%; font-size: 13px;">✕ Batal</button>
       </div>
     </div>
   </div>
