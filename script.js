@@ -530,7 +530,6 @@ function openLaporanKibDetail(kib) {
   const detailView = document.getElementById('laporanKibDetailView');
   const titleEl = document.getElementById('laporanKibDetailTitle');
   const subEl = document.getElementById('laporanKibDetailSub');
-  const tbody = document.getElementById('laporanKibDetailBody');
 
   if (mainView) mainView.style.display = 'none';
   if (detailView) detailView.style.display = '';
@@ -541,23 +540,63 @@ function openLaporanKibDetail(kib) {
       : 'Rincian barang · Semua SKPD';
   }
 
+  const searchInput = document.getElementById('laporanKibDetailSearchInput');
+  if (searchInput) searchInput.value = '';
+
   renderLaporanStats('laporanKibDetailStats', assets);
+  renderLaporanKibDetailTable();
+}
+
+function renderLaporanKibDetailTable() {
+  const kib = currentLaporanKib;
+  if (!kib) return;
+  const assets = getLaporanAssets().filter(asset => getAssetKibCode(asset) === kib);
+  const searchInput = document.getElementById('laporanKibDetailSearchInput');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+  const tbody = document.getElementById('laporanKibDetailBody');
+
+  const filteredAssets = assets.filter(asset => {
+    const combinedFields = [
+      asset.kode,
+      asset.nama,
+      asset.merk,
+      asset.ukuran,
+      asset.rangka,
+      asset.mesin,
+      asset.polisi,
+      asset.bpkb,
+      asset.nilai,
+      asset.tahun,
+      asset.skpd,
+      asset.kondisi
+    ].map(v => (v === undefined || v === null) ? '' : String(v).toLowerCase()).join(' ');
+    return searchTerm === '' || combinedFields.includes(searchTerm);
+  });
 
   if (tbody) {
-    tbody.innerHTML = assets.length ? assets.map((asset, idx) => `
+    tbody.innerHTML = filteredAssets.length ? filteredAssets.map((asset, idx) => `
       <tr class="clickable-row" onclick='showAssetDetail(${JSON.stringify(asset.kode)})'>
         <td>${idx + 1}</td>
-        <td><span class="kode-chip">${escapeHtml(asset.kode)}</span></td>
-        <td><strong>${escapeHtml(asset.nama)}</strong></td>
-        <td>${escapeHtml(asset.merk || '-')}</td>
-        <td>${asset.tahun || '-'}</td>
-        <td>${asset.jumlah || 0}</td>
-        <td class="nilai-text">${escapeHtml(asset.nilai || '-')}</td>
-        <td><span class="status-pill ${KONDISI_CLASS[asset.kondisi] || 'baik'}">${escapeHtml(asset.kondisi || '-')}</span></td>
+        <td><span class="kode-chip">${highlight(asset.kode, searchTerm)}</span></td>
+        <td><strong>${highlight(asset.nama, searchTerm)}</strong></td>
+        <td>${highlight(asset.merk || '-', searchTerm)}</td>
+        <td>${highlight(String(asset.tahun || '-'), searchTerm)}</td>
+        <td>${highlight(String(asset.jumlah || 0), searchTerm)}</td>
+        <td class="nilai-text">${highlight(asset.nilai || '-', searchTerm)}</td>
+        <td><span class="status-pill ${KONDISI_CLASS[asset.kondisi] || 'baik'}">${highlight(asset.kondisi || '-', searchTerm)}</span></td>
       </tr>
     `).join('') : `<tr><td colspan="8" class="laporan-kib-empty">Tidak ada barang pada KIB ini</td></tr>`;
   }
 }
+
+const _debouncedRenderLaporanKibDetail = debounce(() => {
+  renderLaporanKibDetailTable();
+}, 250);
+
+function filterLaporanKibDetail() {
+  _debouncedRenderLaporanKibDetail();
+}
+
 
 function closeLaporanKibDetail(resetKib = true) {
   const mainView = document.getElementById('laporanMainView');

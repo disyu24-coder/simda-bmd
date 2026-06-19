@@ -1,332 +1,657 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>SIMDA BMD — Pemerintah Daerah Kabupaten Wajo</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>SIMDA BMD — Pemerintah Daerah Kabupaten Wajo</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- LOGIN PAGE -->
-<div id="loginPage">
-  <div class="jet-animation">
-    <div class="jet-container">
-      <div class="fireworks-burst" style="left: 10%"></div>
-      <div class="fireworks-burst" style="left: 20%"></div>
-      <div class="fireworks-burst" style="left: 30%"></div>
-      <div class="fireworks-burst" style="left: 40%"></div>
-      <div class="fireworks-burst" style="left: 50%"></div>
-      <div class="fireworks-burst" style="left: 60%"></div>
-      <div class="fireworks-burst" style="left: 70%"></div>
-      <div class="fireworks-burst" style="left: 80%"></div>
-      <div class="fireworks-burst" style="left: 90%"></div>
+  <!-- LOGIN PAGE -->
+  <div id="loginPage">
+    <div class="jet-animation">
+      <div class="jet-container">
+        <div class="fireworks-burst" style="left: 10%"></div>
+        <div class="fireworks-burst" style="left: 20%"></div>
+        <div class="fireworks-burst" style="left: 30%"></div>
+        <div class="fireworks-burst" style="left: 40%"></div>
+        <div class="fireworks-burst" style="left: 50%"></div>
+        <div class="fireworks-burst" style="left: 60%"></div>
+        <div class="fireworks-burst" style="left: 70%"></div>
+        <div class="fireworks-burst" style="left: 80%"></div>
+        <div class="fireworks-burst" style="left: 90%"></div>
+      </div>
+    </div>
+    <div class="login-left">
+      <img src="wajo.png" class="login-logo">
+      <div class="login-brand-title">SIMDA <span>BMD</span></div>
+      <div class="login-brand-sub">Sistem Informasi Manajemen Daerah<br>Barang Milik Daerah</div>
+      <div class="login-divider"></div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center">Pemerintah Daerah Kabupaten Wajo</div>
+      <ul class="login-info-list">
+        <li>Pencatatan & Pengelolaan Aset Daerah</li>
+        <li>Kartu Inventaris Barang (KIB A–F)</li>
+        <li>Rekonsiliasi & Pelaporan BMD</li>
+        <li>Penyusutan & Mutasi Aset</li>
+      </ul>
+    </div>
+    <div class="login-right" style="position:relative">
+      <div class="login-loading" id="loginLoading">
+        <div class="spinner"></div>
+        <div class="spinner-text">Memverifikasi akun...</div>
+      </div>
+      <div style="width:100%">
+        <div class="login-card-title">Selamat Datang</div>
+        <div class="login-card-sub">Silakan masuk untuk mengakses sistem</div>
+        <div class="role-tabs">
+          <button class="role-tab active" id="tabAdmin" onclick="switchRole('admin')">🔐 Administrator</button>
+          <button class="role-tab" id="tabTamu" onclick="switchRole('tamu')">👤 Tamu / OPD</button>
+        </div>
+        <div class="login-form">
+          <div class="login-field opd-field" id="opdField">
+            <div class="login-label">Nama OPD / SKPD</div>
+            <div class="login-input-wrap"><span class="login-input-icon">🏢</span><select class="login-select"
+                id="loginOpd">
+                <option value="">— Pilih OPD / SKPD —</option>
+                <option>Dinas Pendidikan & Kebudayaan</option>
+                <option>Dinas Kesehatan</option>
+                <option>BPKPD</option>
+                <option>Dinas Pekerjaan Umum</option>
+                <option>Sekretariat Daerah Kab. Wajo</option>
+                <option>Dinas Perhubungan</option>
+                <option>Dinas Sosial</option>
+              </select></div>
+          </div>
+          <div class="login-field">
+            <div class="login-label">Nama Pengguna</div>
+            <div class="login-input-wrap"><span class="login-input-icon">👤</span><input class="login-input" type="text"
+                id="loginUser" placeholder="Masukkan nama pengguna"></div>
+          </div>
+          <div class="login-field">
+            <div class="login-label">Kata Sandi</div>
+            <div class="login-input-wrap"><span class="login-input-icon">🔒</span><input class="login-input"
+                type="password" id="loginPass" placeholder="Masukkan kata sandi" style="padding-right:36px"
+                onkeydown="if(event.key==='Enter')doLogin()"><span class="login-input-toggle" onclick="togglePass()"
+                id="passToggle">👁️</span></div>
+          </div>
+          <div class="login-error" id="loginError">⚠️ <span id="loginErrorMsg">Nama pengguna atau kata sandi
+              salah.</span></div>
+          <button class="login-btn" onclick="doLogin()">Masuk ke Sistem →</button>
+        </div>
+        <div class="login-footer-text">SIMDA-BMD v3.2.1 · by SURYAKALENG</div>
+      </div>
     </div>
   </div>
-  <div class="login-left">
-    <img src="wajo.png" class="login-logo">
-    <div class="login-brand-title">SIMDA <span>BMD</span></div>
-    <div class="login-brand-sub">Sistem Informasi Manajemen Daerah<br>Barang Milik Daerah</div>
-    <div class="login-divider"></div>
-    <div style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center">Pemerintah Daerah Kabupaten Wajo</div>
-    <ul class="login-info-list">
-      <li>Pencatatan & Pengelolaan Aset Daerah</li>
-      <li>Kartu Inventaris Barang (KIB A–F)</li>
-      <li>Rekonsiliasi & Pelaporan BMD</li>
-      <li>Penyusutan & Mutasi Aset</li>
-    </ul>
-  </div>
-  <div class="login-right" style="position:relative">
-    <div class="login-loading" id="loginLoading"><div class="spinner"></div><div class="spinner-text">Memverifikasi akun...</div></div>
-    <div style="width:100%">
-      <div class="login-card-title">Selamat Datang</div>
-      <div class="login-card-sub">Silakan masuk untuk mengakses sistem</div>
-      <div class="role-tabs">
-        <button class="role-tab active" id="tabAdmin" onclick="switchRole('admin')">🔐 Administrator</button>
-        <button class="role-tab" id="tabTamu" onclick="switchRole('tamu')">👤 Tamu / OPD</button>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-area">
+        <div class="logo-emblem"><img src="wajo.png" alt="Logo Kabupaten Wajo"></div>
+        <div class="logo-text">
+          <div class="title">SIMDA-BMD</div>
+          <div class="subtitle">Kab. Wajo · Prov. Sulsel</div>
+        </div>
       </div>
-      <div class="login-form">
-        <div class="login-field opd-field" id="opdField">
-          <div class="login-label">Nama OPD / SKPD</div>
-          <div class="login-input-wrap"><span class="login-input-icon">🏢</span><select class="login-select" id="loginOpd"><option value="">— Pilih OPD / SKPD —</option><option>Dinas Pendidikan & Kebudayaan</option><option>Dinas Kesehatan</option><option>BPKPD</option><option>Dinas Pekerjaan Umum</option><option>Sekretariat Daerah Kab. Wajo</option><option>Dinas Perhubungan</option><option>Dinas Sosial</option></select></div>
-        </div>
-        <div class="login-field">
-          <div class="login-label">Nama Pengguna</div>
-          <div class="login-input-wrap"><span class="login-input-icon">👤</span><input class="login-input" type="text" id="loginUser" placeholder="Masukkan nama pengguna"></div>
-        </div>
-        <div class="login-field">
-          <div class="login-label">Kata Sandi</div>
-          <div class="login-input-wrap"><span class="login-input-icon">🔒</span><input class="login-input" type="password" id="loginPass" placeholder="Masukkan kata sandi" style="padding-right:36px" onkeydown="if(event.key==='Enter')doLogin()"><span class="login-input-toggle" onclick="togglePass()" id="passToggle">👁️</span></div>
-        </div>
-        <div class="login-error" id="loginError">⚠️ <span id="loginErrorMsg">Nama pengguna atau kata sandi salah.</span></div>
-        <button class="login-btn" onclick="doLogin()">Masuk ke Sistem →</button>
-      </div>
-      <div class="login-footer-text">SIMDA-BMD v3.2.1 · BPKPD Kabupaten Wajo</div>
+      <div class="sidebar-badge">TA 2025</div>
     </div>
-  </div>
-</div>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-header"><div class="logo-area"><div class="logo-emblem"><img src="wajo.png" alt="Logo Kabupaten Wajo"></div><div class="logo-text"><div class="title">SIMDA-BMD</div><div class="subtitle">Kab. Wajo · Prov. Sulsel</div></div></div><div class="sidebar-badge">TA 2025</div></div>
-  <nav class="sidebar-nav">
-    <div class="nav-section-label">Utama</div>
-    <a class="nav-item active" onclick="showPage('dashboard')"><div class="nav-icon">📊</div>Dashboard</a>
-    <a class="nav-item" onclick="showPage('inventaris')"><div class="nav-icon">📦</div>Data Inventaris<span class="nav-badge" id="totalAssetBadge">12</span></a>
-    <a class="nav-item" onclick="showPage('mutasi')"><div class="nav-icon">🔄</div>Mutasi BMD</a>
-    <a class="nav-item admin-only" onclick="showPage('penghapusan')"><div class="nav-icon">🗑️</div>Penghapusan</a>
-    <div class="nav-section-label">Pengelolaan</div>
-    <a class="nav-item" onclick="showPage('penyusutan')"><div class="nav-icon">📉</div>Penyusutan Aset</a>
-    <a class="nav-item" onclick="showPage('pemeliharaan')"><div class="nav-icon">🔧</div>Pemeliharaan<span class="nav-badge">12</span></a>
-    <a class="nav-item" onclick="showPage('pemanfaatan')"><div class="nav-icon">🤝</div>Pemanfaatan</a>
-    <div class="nav-section-label">Laporan</div>
-    <a class="nav-item" onclick="showPage('kib')"><div class="nav-icon">📋</div>KIB (Kartu Inventaris)</a>
-    <a class="nav-item" onclick="showPage('laporan')"><div class="nav-icon">📄</div>Rekap & Laporan</a>
-    <div class="nav-section-label">Sistem</div>
-    <a class="nav-item admin-only" onclick="showPage('master')"><div class="nav-icon">⚙️</div>Data Master</a>
-    <a class="nav-item admin-only" onclick="showPage('pengguna')"><div class="nav-icon">👥</div>Pengguna</a>
-  </nav>
-  <div class="sidebar-footer"><div class="user-card"><div class="user-avatar" id="sidebarAvatar">AD</div><div class="user-info"><div class="name" id="sidebarName">Ahmad Dani</div><div class="role" id="sidebarRole">SUPER ADMIN</div></div></div></div>
-</aside>
-
-<!-- MAIN -->
-<div class="main">
-  <header class="topbar">
-    <div class="topbar-left"><div><div class="page-title" id="pageTitle">Dashboard Inventaris BMD</div><div class="breadcrumb">Beranda <span>›</span> <span id="breadcrumbSub">Dashboard</span></div></div></div>
-    <div class="topbar-right">
-      <div class="datetime-container"><div class="heart-icon">❤️</div><div class="date-info"><div class="date-day" id="dayName">SENIN</div><div class="date-full" id="fullDate">1 Juni 2025</div></div><div class="time-info"><div class="time-clock" id="realTimeClock">11:05:21</div><div class="time-period" id="timePeriod">SIANG</div></div></div>
-      <div class="tahun-badge">TA 2025</div>
-      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-tooltip="Ganti Tema">🌙</button>
-      <div class="icon-btn" data-tooltip="Notifikasi">🔔<div class="notif-dot"></div></div>
-      <div class="icon-btn" data-tooltip="Export Excel">📥</div>
-      <div class="icon-btn" data-tooltip="Cetak Laporan">🖨️</div>
-      <div id="topbarRoleBadge" class="role-badge admin">🔐 Admin</div>
-      <button class="logout-btn" onclick="doLogout()">⏻ Keluar</button>
-    </div>
-  </header>
-
-  <div class="content" id="mainContent">
-    <!-- DASHBOARD -->
-    <div id="page-dashboard">
-      <div class="alert-banner"><div class="alert-left"><div class="alert-icon">📅</div><div><div class="alert-title">Rekonsiliasi BMD Semester I Tahun 2025</div><div class="alert-desc">Batas waktu pelaporan: 31 Juli 2025 · 47 SKPD belum melakukan pemutakhiran data</div></div></div><button class="btn btn-gold">Lihat Detail →</button></div>
-      <div class="stats-grid">
-        <div class="stat-card gold"><div class="stat-top"><div class="stat-icon">🏢</div><div class="stat-trend up">↑ 3.2%</div></div><div class="stat-value">2.847</div><div class="stat-label">Total Item Aset BMD</div><div class="stat-sub" id="dashboardOpdLabel">63 SKPD · Kab. Wajo</div></div>
-        <div class="stat-card green"><div class="stat-top"><div class="stat-icon">💰</div><div class="stat-trend up">↑ 8.1%</div></div><div class="stat-value">Rp 1,24T</div><div class="stat-label">Total Nilai Aset</div><div class="stat-sub">Nilai Perolehan Hingga Tahun 2025</div></div>
-        <div class="stat-card red"><div class="stat-top"><div class="stat-icon">⚠️</div><div class="stat-trend down">↑ 12</div></div><div class="stat-value">187</div><div class="stat-label">Aset Kondisi Rusak</div><div class="stat-sub">47 rusak ringan · 140 rusak berat</div></div>
-        <div class="stat-card blue"><div class="stat-top"><div class="stat-icon">📋</div><div class="stat-trend up">↑ 24</div></div><div class="stat-value">312</div><div class="stat-label">Pengadaan Baru (2025)</div><div class="stat-sub">Nilai Rp 24,7 Miliar</div></div>
-      </div>
-      <div class="dashboard-grid">
-        <div class="panel">
-          <div class="panel-header"><div><div class="panel-title">📂 Kategori Aset</div><div class="panel-sub">Distribusi per KIB A–F</div></div></div>
-          <div class="category-list" id="categoryList"></div>
-        </div>
-        <div class="panel">
-          <div class="panel-header"><div><div class="panel-title">🏆 TOP 10 OPD</div><div class="panel-sub">Kepemilikan Aset Terbanyak</div></div><div class="btn-outline" style="padding:4px 8px; font-size:10px">🏅 Real-time</div></div>
-          <div class="top-opd-list" id="topOpdContainer"></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Utama</div>
+      <a class="nav-item active" onclick="showPage('dashboard')">
+        <div class="nav-icon">📊</div>Dashboard
+      </a>
+      <a class="nav-item" onclick="showPage('inventaris')">
+        <div class="nav-icon">📦</div>Data Inventaris<span class="nav-badge" id="totalAssetBadge">12</span>
+      </a>
+      <a class="nav-item" onclick="showPage('mutasi')">
+        <div class="nav-icon">🔄</div>Mutasi BMD
+      </a>
+      <a class="nav-item admin-only" onclick="showPage('penghapusan')">
+        <div class="nav-icon">🗑️</div>Penghapusan
+      </a>
+      <div class="nav-section-label">Pengelolaan</div>
+      <a class="nav-item" onclick="showPage('penyusutan')">
+        <div class="nav-icon">📉</div>Penyusutan Aset
+      </a>
+      <a class="nav-item" onclick="showPage('pemeliharaan')">
+        <div class="nav-icon">🔧</div>Pemeliharaan<span class="nav-badge">12</span>
+      </a>
+      <a class="nav-item" onclick="showPage('pemanfaatan')">
+        <div class="nav-icon">🤝</div>Pemanfaatan
+      </a>
+      <div class="nav-section-label">Laporan</div>
+      <a class="nav-item" onclick="showPage('kib')">
+        <div class="nav-icon">📋</div>KIB (Kartu Inventaris)
+      </a>
+      <a class="nav-item" onclick="showPage('laporan')">
+        <div class="nav-icon">📄</div>Rekap & Laporan
+      </a>
+      <div class="nav-section-label">Sistem</div>
+      <a class="nav-item admin-only" onclick="showPage('master')">
+        <div class="nav-icon">⚙️</div>Data Master
+      </a>
+      <a class="nav-item admin-only" onclick="showPage('pengguna')">
+        <div class="nav-icon">👥</div>Pengguna
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar" id="sidebarAvatar">AD</div>
+        <div class="user-info">
+          <div class="name" id="sidebarName">Ahmad Dani</div>
+          <div class="role" id="sidebarRole">SUPER ADMIN</div>
         </div>
       </div>
     </div>
+  </aside>
 
-    <!-- INVENTARIS PAGE -->
-    <div id="page-inventaris" style="display:none">
-      <div class="panel">
-        <div class="panel-header"><div><div class="panel-title">📦 Data Inventaris Barang Milik Daerah</div><div class="panel-sub" id="inventarisPanelSub">Total 12 aset terdaftar · Kabupaten Wajo</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;position:relative">
-          <button class="btn btn-outline">📥 Import Excel</button>
-          <div class="export-dropdown">
-            <button class="btn btn-outline" onclick="toggleExportMenu()">📤 Export ▾</button>
-            <div class="export-menu" id="exportMenu">
-              <div class="export-orientation">
-                <label for="exportOrientation">Orientation</label>
-                <select id="exportOrientation" onchange="setExportOrientation(this.value)">
-                  <option value="portrait">Portrait</option>
-                  <option value="landscape">Landscape</option>
-                </select>
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="page-title" id="pageTitle">Dashboard Inventaris BMD</div>
+          <div class="breadcrumb">Beranda <span>›</span> <span id="breadcrumbSub">Dashboard</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="datetime-container">
+          <div class="heart-icon">❤️</div>
+          <div class="date-info">
+            <div class="date-day" id="dayName">SENIN</div>
+            <div class="date-full" id="fullDate">1 Juni 2025</div>
+          </div>
+          <div class="time-info">
+            <div class="time-clock" id="realTimeClock">11:05:21</div>
+            <div class="time-period" id="timePeriod">SIANG</div>
+          </div>
+        </div>
+        <div class="tahun-badge">TA 2025</div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" data-tooltip="Ganti Tema">🌙</button>
+        <div class="icon-btn" data-tooltip="Notifikasi">🔔<div class="notif-dot"></div>
+        </div>
+        <div class="icon-btn" data-tooltip="Export Excel">📥</div>
+        <div class="icon-btn" data-tooltip="Cetak Laporan">🖨️</div>
+        <div id="topbarRoleBadge" class="role-badge admin">🔐 Admin</div>
+        <button class="logout-btn" onclick="doLogout()">⏻ Keluar</button>
+      </div>
+    </header>
+
+    <div class="content" id="mainContent">
+      <!-- DASHBOARD -->
+      <div id="page-dashboard">
+        <div class="alert-banner">
+          <div class="alert-left">
+            <div class="alert-icon">📅</div>
+            <div>
+              <div class="alert-title">Rekonsiliasi BMD Semester I Tahun 2025</div>
+              <div class="alert-desc">Batas waktu pelaporan: 31 Juli 2025 · 47 SKPD belum melakukan pemutakhiran data
               </div>
-              <button class="export-item" type="button" onclick="exportPdf()">Export ke PDF</button>
-              <button class="export-item" type="button" onclick="exportCsv()">Export ke CSV</button>
             </div>
+          </div><button class="btn btn-gold">Lihat Detail →</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card gold">
+            <div class="stat-top">
+              <div class="stat-icon">🏢</div>
+              <div class="stat-trend up">↑ 3.2%</div>
+            </div>
+            <div class="stat-value">2.847</div>
+            <div class="stat-label">Total Item Aset BMD</div>
+            <div class="stat-sub" id="dashboardOpdLabel">63 SKPD · Kab. Wajo</div>
           </div>
-          <button class="btn btn-gold admin-only" onclick="openModal()">+ Tambah Aset</button>
-        </div></div>
-        <div class="filter-bar" style="padding:12px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <select class="filter-select admin-only" id="filterSkpd" onchange="filterInventaris()">
-            <option value="">Semua SKPD</option>
-            <option>Dinas Pendidikan</option>
-            <option>Dinas Kesehatan</option>
-            <option>BPKPD</option>
-            <option>Dinas PU</option>
-            <option>Diskominfo</option>
-            <option>Dinas Perhubungan</option>
-            <option>Setda Wajo</option>
-          </select>
-          <select class="filter-select" id="filterKib" onchange="filterInventaris()">
-            <option value="">Semua KIB</option>
-            <option>KIB A — Tanah</option>
-            <option>KIB B — Peralatan & Mesin</option>
-            <option>KIB C — Gedung & Bangunan</option>
-            <option>KIB D — Jalan & Jaringan</option>
-            <option>KIB E — Aset Lainnya</option>
-            <option>KIB F — Konstruksi Dalam Pengerjaan</option>
-          </select>
-          <select class="filter-select" id="filterKondisi" onchange="filterInventaris()">
-            <option value="">Semua Kondisi</option>
-            <option>Baik</option>
-            <option>Rusak Ringan</option>
-            <option>Rusak Berat</option>
-          </select>
-          <div class="search-inventaris">
-            <span>🔍</span>
-            <input type="text" id="inventarisSearchInput" placeholder="Cari kode barang, nama aset..." onkeyup="filterInventaris()">
+          <div class="stat-card green">
+            <div class="stat-top">
+              <div class="stat-icon">💰</div>
+              <div class="stat-trend up">↑ 8.1%</div>
+            </div>
+            <div class="stat-value">Rp 1,24T</div>
+            <div class="stat-label">Total Nilai Aset</div>
+            <div class="stat-sub">Nilai Perolehan Hingga Tahun 2025</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-top">
+              <div class="stat-icon">⚠️</div>
+              <div class="stat-trend down">↑ 12</div>
+            </div>
+            <div class="stat-value">187</div>
+            <div class="stat-label">Aset Kondisi Rusak</div>
+            <div class="stat-sub">47 rusak ringan · 140 rusak berat</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-top">
+              <div class="stat-icon">📋</div>
+              <div class="stat-trend up">↑ 24</div>
+            </div>
+            <div class="stat-value">312</div>
+            <div class="stat-label">Pengadaan Baru (2025)</div>
+            <div class="stat-sub">Nilai Rp 24,7 Miliar</div>
           </div>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>NO</th><th>KODE BARANG</th><th>NAMA ASET</th><th>KIB</th><th>NO SERTIFIKAT</th><th>MERK</th><th>UKURAN</th><th>RANGKA</th><th>NO MESIN</th><th>NO POLISI</th><th>BPKB</th><th>TAHUN</th><th>JUMLAH</th><th>NILAI PEROLEHAN</th><th>NILAI BUKU</th><th>KONDISI</th><th class="admin-only">OPD</th><th class="admin-only">AKSI</th></tr>
-            </thead>
-            <tbody id="inventarisTableBody"></tbody>
-          </table>
-        </div>
-        <div class="pagination">
-          <div id="paginationInfo">1–10 dari 12 data</div>
-          <div class="page-btns" id="paginationBtns"></div>
+        <div class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">📂 Kategori Aset</div>
+                <div class="panel-sub">Distribusi per KIB A–F</div>
+              </div>
+            </div>
+            <div class="category-list" id="categoryList"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">🏆 TOP 10 OPD</div>
+                <div class="panel-sub">Kepemilikan Aset Terbanyak</div>
+              </div>
+              <div class="btn-outline" style="padding:4px 8px; font-size:10px">🏅 Real-time</div>
+            </div>
+            <div class="top-opd-list" id="topOpdContainer"></div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Other pages placeholder -->
-    <div id="page-mutasi" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">🔄 Mutasi BMD</div></div><div style="padding:40px;text-align:center"><div style="font-size:40px">🔄</div><div>Modul Mutasi BMD</div></div></div></div>
-    <div id="page-penghapusan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">🗑️ Penghapusan BMD</div></div><div style="padding:40px;text-align:center"><div>Modul Penghapusan BMD</div></div></div></div>
-    <div id="page-penyusutan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">📉 Penyusutan Aset</div></div><div style="padding:40px;text-align:center"><div>Modul Penyusutan</div></div></div></div>
-    <div id="page-pemeliharaan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">🔧 Pemeliharaan</div></div><div style="padding:40px;text-align:center"><div>Modul Pemeliharaan</div></div></div></div>
-    <div id="page-pemanfaatan" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">🤝 Pemanfaatan</div></div><div style="padding:40px;text-align:center"><div>Modul Pemanfaatan</div></div></div></div>
-    <div id="page-kib" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">📋 KIB</div></div><div style="padding:40px;text-align:center"><div>Kartu Inventaris Barang</div></div></div></div>
-    <div id="page-laporan" style="display:none">
-      <div id="laporanMainView">
+      <!-- INVENTARIS PAGE -->
+      <div id="page-inventaris" style="display:none">
         <div class="panel">
           <div class="panel-header">
             <div>
-              <div class="panel-title">📄 Rekap & Laporan BMD</div>
-              <div class="panel-sub" id="laporanPanelSub">Ringkasan Kartu Inventaris Barang per KIB</div>
+              <div class="panel-title">📦 Data Inventaris Barang Milik Daerah</div>
+              <div class="panel-sub" id="inventarisPanelSub">Total 12 aset terdaftar · Kabupaten Wajo</div>
             </div>
-            <div class="laporan-filter admin-only">
-              <select class="filter-select" id="laporanOpdSelect" onchange="renderLaporanKib()">
-                <option value="">Semua SKPD</option>
-              </select>
-            </div>
-          </div>
-          <div class="laporan-opd-banner" id="laporanOpdBanner"></div>
-          <div class="laporan-stats" id="laporanStats"></div>
-          <div class="laporan-kib-grid" id="laporanKibGrid"></div>
-        </div>
-      </div>
-      <div id="laporanKibDetailView" style="display:none">
-        <div class="panel">
-          <div class="panel-header">
-            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-              <button class="btn btn-outline" type="button" onclick="closeLaporanKibDetail()">← Kembali</button>
-              <div>
-                <div class="panel-title" id="laporanKibDetailTitle">KIB A — Tanah</div>
-                <div class="panel-sub" id="laporanKibDetailSub">Rincian barang milik daerah</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;position:relative">
+              <button class="btn btn-outline">📥 Import Excel</button>
+              <div class="export-dropdown">
+                <button class="btn btn-outline" onclick="toggleExportMenu()">📤 Export ▾</button>
+                <div class="export-menu" id="exportMenu">
+                  <div class="export-orientation">
+                    <label for="exportOrientation">Orientation</label>
+                    <select id="exportOrientation" onchange="setExportOrientation(this.value)">
+                      <option value="portrait">Portrait</option>
+                      <option value="landscape">Landscape</option>
+                    </select>
+                  </div>
+                  <button class="export-item" type="button" onclick="exportPdf()">Export ke PDF</button>
+                  <button class="export-item" type="button" onclick="exportCsv()">Export ke CSV</button>
+                </div>
               </div>
+              <button class="btn btn-gold admin-only" onclick="openModal()">+ Tambah Aset</button>
             </div>
           </div>
-          <div class="laporan-stats" id="laporanKibDetailStats"></div>
+          <div class="filter-bar" style="padding:12px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <select class="filter-select admin-only" id="filterSkpd" onchange="filterInventaris()">
+              <option value="">Semua SKPD</option>
+              <option>Dinas Pendidikan</option>
+              <option>Dinas Kesehatan</option>
+              <option>BPKPD</option>
+              <option>Dinas PU</option>
+              <option>Diskominfo</option>
+              <option>Dinas Perhubungan</option>
+              <option>Setda Wajo</option>
+            </select>
+            <select class="filter-select" id="filterKib" onchange="filterInventaris()">
+              <option value="">Semua KIB</option>
+              <option>KIB A — Tanah</option>
+              <option>KIB B — Peralatan & Mesin</option>
+              <option>KIB C — Gedung & Bangunan</option>
+              <option>KIB D — Jalan & Jaringan</option>
+              <option>KIB E — Aset Lainnya</option>
+              <option>KIB F — Konstruksi Dalam Pengerjaan</option>
+            </select>
+            <select class="filter-select" id="filterKondisi" onchange="filterInventaris()">
+              <option value="">Semua Kondisi</option>
+              <option>Baik</option>
+              <option>Rusak Ringan</option>
+              <option>Rusak Berat</option>
+            </select>
+            <div class="search-inventaris">
+              <span>🔍</span>
+              <input type="text" id="inventarisSearchInput" placeholder="Cari kode barang, nama aset..."
+                onkeyup="filterInventaris()">
+            </div>
+          </div>
           <div class="table-wrap">
             <table>
               <thead>
-                <tr><th>NO</th><th>KODE BARANG</th><th>NAMA ASET</th><th>MERK</th><th>TAHUN</th><th>JUMLAH</th><th>NILAI PEROLEHAN</th><th>KONDISI</th></tr>
+                <tr>
+                  <th>NO</th>
+                  <th>KODE BARANG</th>
+                  <th>NAMA ASET</th>
+                  <th>KIB</th>
+                  <th>NO SERTIFIKAT</th>
+                  <th>MERK</th>
+                  <th>UKURAN</th>
+                  <th>RANGKA</th>
+                  <th>NO MESIN</th>
+                  <th>NO POLISI</th>
+                  <th>BPKB</th>
+                  <th>TAHUN</th>
+                  <th>JUMLAH</th>
+                  <th>NILAI PEROLEHAN</th>
+                  <th>NILAI BUKU</th>
+                  <th>KONDISI</th>
+                  <th class="admin-only">OPD</th>
+                  <th class="admin-only">AKSI</th>
+                </tr>
               </thead>
-              <tbody id="laporanKibDetailBody"></tbody>
+              <tbody id="inventarisTableBody"></tbody>
             </table>
+          </div>
+          <div class="pagination">
+            <div id="paginationInfo">1–10 dari 12 data</div>
+            <div class="page-btns" id="paginationBtns"></div>
           </div>
         </div>
       </div>
-    </div>
-    <div id="page-master" style="display:none">
-      <div id="masterGridView">
-        <div class="master-intro">
-          <div class="master-intro-title">Referensi Data Master</div>
-          <div class="master-intro-sub">Kelola data dasar yang digunakan di seluruh modul SIMDA-BMD</div>
-        </div>
-        <div class="master-grid" id="masterGrid"></div>
-      </div>
-      <div id="masterDetailView" style="display:none">
+
+      <!-- Other pages placeholder -->
+      <div id="page-mutasi" style="display:none">
         <div class="panel">
           <div class="panel-header">
-            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-              <button class="btn btn-outline" type="button" onclick="closeMasterDetail()">← Kembali</button>
+            <div class="panel-title">🔄 Mutasi BMD</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div style="font-size:40px">🔄</div>
+            <div>Modul Mutasi BMD</div>
+          </div>
+        </div>
+      </div>
+      <div id="page-penghapusan" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗑️ Penghapusan BMD</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div>Modul Penghapusan BMD</div>
+          </div>
+        </div>
+      </div>
+      <div id="page-penyusutan" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📉 Penyusutan Aset</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div>Modul Penyusutan</div>
+          </div>
+        </div>
+      </div>
+      <div id="page-pemeliharaan" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🔧 Pemeliharaan</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div>Modul Pemeliharaan</div>
+          </div>
+        </div>
+      </div>
+      <div id="page-pemanfaatan" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🤝 Pemanfaatan</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div>Modul Pemanfaatan</div>
+          </div>
+        </div>
+      </div>
+      <div id="page-kib" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📋 KIB</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div>Kartu Inventaris Barang</div>
+          </div>
+        </div>
+      </div>
+      <div id="page-laporan" style="display:none">
+        <div id="laporanMainView">
+          <div class="panel">
+            <div class="panel-header">
               <div>
-                <div class="panel-title" id="masterDetailTitle">SKPD / OPD</div>
-                <div class="panel-sub" id="masterDetailSub">Kelola data referensi</div>
+                <div class="panel-title">📄 Rekap & Laporan BMD</div>
+                <div class="panel-sub" id="laporanPanelSub">Ringkasan Kartu Inventaris Barang per KIB</div>
+              </div>
+              <div class="laporan-filter admin-only">
+                <select class="filter-select" id="laporanOpdSelect" onchange="renderLaporanKib()">
+                  <option value="">Semua SKPD</option>
+                </select>
               </div>
             </div>
-            <button class="btn btn-gold" type="button" onclick="openMasterForm()">+ Tambah Data</button>
+            <div class="laporan-opd-banner" id="laporanOpdBanner"></div>
+            <div class="laporan-stats" id="laporanStats"></div>
+            <div class="laporan-kib-grid" id="laporanKibGrid"></div>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead id="masterTableHead"></thead>
-              <tbody id="masterTableBody"></tbody>
-            </table>
+        </div>
+        <div id="laporanKibDetailView" style="display:none">
+          <div class="panel">
+            <div class="panel-header">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <button class="btn btn-outline" type="button" onclick="closeLaporanKibDetail()">← Kembali</button>
+                <div>
+                  <div class="panel-title" id="laporanKibDetailTitle">KIB A — Tanah</div>
+                  <div class="panel-sub" id="laporanKibDetailSub">Rincian barang milik daerah</div>
+                </div>
+              </div>
+              <div class="search-inventaris">
+                <span>🔍</span>
+                <input type="text" id="laporanKibDetailSearchInput" placeholder="Cari kode barang, nama aset..."
+                  onkeyup="filterLaporanKibDetail()">
+              </div>
+            </div>
+            <div class="laporan-stats" id="laporanKibDetailStats"></div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>NO</th>
+                    <th>KODE BARANG</th>
+                    <th>NAMA ASET</th>
+                    <th>MERK</th>
+                    <th>TAHUN</th>
+                    <th>JUMLAH</th>
+                    <th>NILAI PEROLEHAN</th>
+                    <th>KONDISI</th>
+                  </tr>
+                </thead>
+                <tbody id="laporanKibDetailBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="page-master" style="display:none">
+        <div id="masterGridView">
+          <div class="master-intro">
+            <div class="master-intro-title">Referensi Data Master</div>
+            <div class="master-intro-sub">Kelola data dasar yang digunakan di seluruh modul SIMDA-BMD</div>
+          </div>
+          <div class="master-grid" id="masterGrid"></div>
+        </div>
+        <div id="masterDetailView" style="display:none">
+          <div class="panel">
+            <div class="panel-header">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <button class="btn btn-outline" type="button" onclick="closeMasterDetail()">← Kembali</button>
+                <div>
+                  <div class="panel-title" id="masterDetailTitle">SKPD / OPD</div>
+                  <div class="panel-sub" id="masterDetailSub">Kelola data referensi</div>
+                </div>
+              </div>
+              <button class="btn btn-gold" type="button" onclick="openMasterForm()">+ Tambah Data</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead id="masterTableHead"></thead>
+                <tbody id="masterTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="page-pengguna" style="display:none">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">👥 Pengguna</div>
+          </div>
+          <div style="padding:40px;text-align:center">
+            <div>Manajemen Pengguna</div>
           </div>
         </div>
       </div>
     </div>
-    <div id="page-pengguna" style="display:none"><div class="panel"><div class="panel-header"><div class="panel-title">👥 Pengguna</div></div><div style="padding:40px;text-align:center"><div>Manajemen Pengguna</div></div></div></div>
+
+    <footer class="page-footer">
+      <div>© 2025 <span class="footer-logo">SIMDA-BMD Kabupaten Wajo</span> · by SURYAKALENG · Pemkab Wajo</div>
+      <div>Versi 3.2.1 · Update: <strong id="lastUpdateTime">1 Juni 2025, 11:05:21 WITA</strong></div>
+    </footer>
   </div>
 
-  <footer class="page-footer"><div>© 2025 <span class="footer-logo">SIMDA-BMD Kabupaten Wajo</span> · BPKPD · Pemkab Wajo</div><div>Versi 3.2.1 · Update: <strong id="lastUpdateTime">1 Juni 2025, 11:05:21 WITA</strong></div></footer>
-</div>
-
-<!-- MODAL TAMBAH ASET -->
-<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)"><div class="modal"><div class="modal-header"><div class="modal-title">➕ Tambah Aset Baru</div><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="form-grid"><div class="form-group"><label class="form-label">KODE BARANG *</label><input class="form-input" placeholder="02.01.02.01.0001" id="fKode"></div><div class="form-group"><label class="form-label">JENIS KIB</label><select class="form-select" id="fKib"><option>KIB A — Tanah</option><option>KIB B — Peralatan & Mesin</option><option>KIB C — Gedung & Bangunan</option><option>KIB D — Jalan & Jaringan</option><option>KIB E — Aset Lainnya</option><option>KIB F — Konstruksi Dalam Pengerjaan</option></select></div><div class="form-group full"><label class="form-label">NAMA BARANG *</label><input class="form-input" placeholder="Nama aset" id="fNama"></div><div class="form-group"><label class="form-label">MERK</label><input class="form-input" placeholder="Merk / Tipe" id="fMerk"></div><div class="form-group"><label class="form-label">UKURAN</label><input class="form-input" placeholder="Ukuran / Spesifikasi" id="fUkuran"></div><div class="form-group"><label class="form-label">RANGKA</label><input class="form-input" placeholder="No. Rangka" id="fRangka"></div><div class="form-group"><label class="form-label">NO MESIN</label><input class="form-input" placeholder="No. Mesin" id="fMesin"></div><div class="form-group"><label class="form-label">NO POLISI</label><input class="form-input" placeholder="No. Polisi" id="fPolisi"></div><div class="form-group"><label class="form-label">BPKB</label><input class="form-input" placeholder="No. BPKB" id="fBpkb"></div><div class="form-group"><label class="form-label">TAHUN</label><input class="form-input" type="number" placeholder="2025" id="fTahun"></div><div class="form-group"><label class="form-label">JUMLAH BARANG</label><input class="form-input" type="number" placeholder="1" id="fJumlah" value="1"></div><div class="form-group"><label class="form-label">NILAI PEROLEHAN (Rp)</label><input class="form-input" placeholder="0" id="fNilai"></div><div class="form-group"><label class="form-label">KONDISI</label><select class="form-select" id="fKondisi"><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div><div class="form-group full"><label class="form-label">SKPD</label><select class="form-select" id="fSkpd"><option>Dinas Pendidikan</option><option>Dinas Kesehatan</option><option>BPKPD</option><option>Dinas PU</option><option>Diskominfo</option><option>Dinas Perhubungan</option><option>Setda Wajo</option></select></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="saveAsset()">💾 Simpan</button></div></div></div>
-<div class="detail-overlay modal-overlay" id="detailOverlay" onclick="handleDetailOverlayClick(event)">
-  <div class="modal detail-modal">
-    <div class="modal-header">
-      <div class="modal-title">🔎 Detail Aset</div>
-      <div class="modal-header-actions">
-        <button class="btn btn-outline btn-sm" onclick="exportDetailPdf()">Cetak</button>
-        <button class="modal-close" onclick="closeDetailModal()">✕</button>
+  <!-- MODAL TAMBAH ASET -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">➕ Tambah Aset Baru</div><button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">KODE BARANG *</label><input class="form-input"
+              placeholder="02.01.02.01.0001" id="fKode"></div>
+          <div class="form-group"><label class="form-label">JENIS KIB</label><select class="form-select" id="fKib">
+              <option>KIB A — Tanah</option>
+              <option>KIB B — Peralatan & Mesin</option>
+              <option>KIB C — Gedung & Bangunan</option>
+              <option>KIB D — Jalan & Jaringan</option>
+              <option>KIB E — Aset Lainnya</option>
+              <option>KIB F — Konstruksi Dalam Pengerjaan</option>
+            </select></div>
+          <div class="form-group full"><label class="form-label">NAMA BARANG *</label><input class="form-input"
+              placeholder="Nama aset" id="fNama"></div>
+          <div class="form-group"><label class="form-label">MERK</label><input class="form-input"
+              placeholder="Merk / Tipe" id="fMerk"></div>
+          <div class="form-group"><label class="form-label">UKURAN</label><input class="form-input"
+              placeholder="Ukuran / Spesifikasi" id="fUkuran"></div>
+          <div class="form-group"><label class="form-label">RANGKA</label><input class="form-input"
+              placeholder="No. Rangka" id="fRangka"></div>
+          <div class="form-group"><label class="form-label">NO MESIN</label><input class="form-input"
+              placeholder="No. Mesin" id="fMesin"></div>
+          <div class="form-group"><label class="form-label">NO POLISI</label><input class="form-input"
+              placeholder="No. Polisi" id="fPolisi"></div>
+          <div class="form-group"><label class="form-label">BPKB</label><input class="form-input" placeholder="No. BPKB"
+              id="fBpkb"></div>
+          <div class="form-group"><label class="form-label">TAHUN</label><input class="form-input" type="number"
+              placeholder="2025" id="fTahun"></div>
+          <div class="form-group"><label class="form-label">JUMLAH BARANG</label><input class="form-input" type="number"
+              placeholder="1" id="fJumlah" value="1"></div>
+          <div class="form-group"><label class="form-label">NILAI PEROLEHAN (Rp)</label><input class="form-input"
+              placeholder="0" id="fNilai"></div>
+          <div class="form-group"><label class="form-label">KONDISI</label><select class="form-select" id="fKondisi">
+              <option>Baik</option>
+              <option>Rusak Ringan</option>
+              <option>Rusak Berat</option>
+            </select></div>
+          <div class="form-group full"><label class="form-label">SKPD</label><select class="form-select" id="fSkpd">
+              <option>Dinas Pendidikan</option>
+              <option>Dinas Kesehatan</option>
+              <option>BPKPD</option>
+              <option>Dinas PU</option>
+              <option>Diskominfo</option>
+              <option>Dinas Perhubungan</option>
+              <option>Setda Wajo</option>
+            </select></div>
+        </div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Batal</button><button
+          class="btn btn-primary" onclick="saveAsset()">💾 Simpan</button></div>
+    </div>
+  </div>
+  <div class="detail-overlay modal-overlay" id="detailOverlay" onclick="handleDetailOverlayClick(event)">
+    <div class="modal detail-modal">
+      <div class="modal-header">
+        <div class="modal-title">🔎 Detail Aset</div>
+        <div class="modal-header-actions">
+          <button class="btn btn-outline btn-sm" onclick="exportDetailPdf()">Cetak</button>
+          <button class="modal-close" onclick="closeDetailModal()">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">KODE BARANG</label>
+            <div class="detail-value" id="detailKode"></div>
+          </div>
+          <div class="form-group"><label class="form-label">JENIS KIB</label>
+            <div class="detail-value" id="detailKib"></div>
+          </div>
+          <div class="form-group"><label class="form-label">NO SERTIFIKAT</label>
+            <div class="detail-value" id="detailSertifikat"></div>
+          </div>
+          <div class="form-group full"><label class="form-label">NAMA ASET</label>
+            <div class="detail-value" id="detailNama"></div>
+          </div>
+          <div class="form-group"><label class="form-label">SKPD</label>
+            <div class="detail-value" id="detailSkpd"></div>
+          </div>
+          <div class="form-group"><label class="form-label">MERK</label>
+            <div class="detail-value" id="detailMerk"></div>
+          </div>
+          <div class="form-group"><label class="form-label">UKURAN / SPESIFIKASI</label>
+            <div class="detail-value" id="detailUkuran"></div>
+          </div>
+          <div class="form-group"><label class="form-label">TAHUN</label>
+            <div class="detail-value" id="detailTahun"></div>
+          </div>
+          <div class="form-group"><label class="form-label">JUMLAH</label>
+            <div class="detail-value" id="detailJumlah"></div>
+          </div>
+          <div class="form-group"><label class="form-label">NILAI PEROLEHAN</label>
+            <div class="detail-value" id="detailNilai"></div>
+          </div>
+          <div class="form-group"><label class="form-label">NILAI BUKU</label>
+            <div class="detail-value" id="detailNilaiBuku"></div>
+          </div>
+          <div class="form-group"><label class="form-label">KONDISI</label>
+            <div class="detail-value" id="detailKondisi"></div>
+          </div>
+          <div class="form-group"><label class="form-label">NO RANGKA</label>
+            <div class="detail-value" id="detailRangka"></div>
+          </div>
+          <div class="form-group"><label class="form-label">NO MESIN</label>
+            <div class="detail-value" id="detailMesin"></div>
+          </div>
+          <div class="form-group"><label class="form-label">NO POLISI</label>
+            <div class="detail-value" id="detailPolisi"></div>
+          </div>
+          <div class="form-group"><label class="form-label">BPKB</label>
+            <div class="detail-value" id="detailBpkb"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">KODE BARANG</label><div class="detail-value" id="detailKode"></div></div>
-        <div class="form-group"><label class="form-label">JENIS KIB</label><div class="detail-value" id="detailKib"></div></div>
-        <div class="form-group"><label class="form-label">NO SERTIFIKAT</label><div class="detail-value" id="detailSertifikat"></div></div>
-        <div class="form-group full"><label class="form-label">NAMA ASET</label><div class="detail-value" id="detailNama"></div></div>
-        <div class="form-group"><label class="form-label">SKPD</label><div class="detail-value" id="detailSkpd"></div></div>
-        <div class="form-group"><label class="form-label">MERK</label><div class="detail-value" id="detailMerk"></div></div>
-        <div class="form-group"><label class="form-label">UKURAN / SPESIFIKASI</label><div class="detail-value" id="detailUkuran"></div></div>
-        <div class="form-group"><label class="form-label">TAHUN</label><div class="detail-value" id="detailTahun"></div></div>
-        <div class="form-group"><label class="form-label">JUMLAH</label><div class="detail-value" id="detailJumlah"></div></div>
-        <div class="form-group"><label class="form-label">NILAI PEROLEHAN</label><div class="detail-value" id="detailNilai"></div></div>
-        <div class="form-group"><label class="form-label">NILAI BUKU</label><div class="detail-value" id="detailNilaiBuku"></div></div>
-        <div class="form-group"><label class="form-label">KONDISI</label><div class="detail-value" id="detailKondisi"></div></div>
-        <div class="form-group"><label class="form-label">NO RANGKA</label><div class="detail-value" id="detailRangka"></div></div>
-        <div class="form-group"><label class="form-label">NO MESIN</label><div class="detail-value" id="detailMesin"></div></div>
-        <div class="form-group"><label class="form-label">NO POLISI</label><div class="detail-value" id="detailPolisi"></div></div>
-        <div class="form-group"><label class="form-label">BPKB</label><div class="detail-value" id="detailBpkb"></div></div>
+  </div>
+  <div class="modal-overlay" id="masterModalOverlay" onclick="handleMasterOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="masterModalTitle">Tambah Data</div>
+        <button class="modal-close" type="button" onclick="closeMasterForm()">✕</button>
+      </div>
+      <div class="modal-body" id="masterFormBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" type="button" onclick="closeMasterForm()">Batal</button>
+        <button class="btn btn-primary" type="button" onclick="saveMasterForm()">💾 Simpan</button>
       </div>
     </div>
   </div>
-</div>
-<div class="modal-overlay" id="masterModalOverlay" onclick="handleMasterOverlayClick(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="masterModalTitle">Tambah Data</div>
-      <button class="modal-close" type="button" onclick="closeMasterForm()">✕</button>
-    </div>
-    <div class="modal-body" id="masterFormBody"></div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" type="button" onclick="closeMasterForm()">Batal</button>
-      <button class="btn btn-primary" type="button" onclick="saveMasterForm()">💾 Simpan</button>
-    </div>
-  </div>
-</div>
-<div class="toast" id="toast">✅ Data berhasil disimpan!</div>
+  <div class="toast" id="toast">✅ Data berhasil disimpan!</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
