@@ -2045,11 +2045,78 @@ body.dark .role-badge.tamu {
   border-radius: 3px;
 }
 
+/* ─── BURGER MENU & SIDEBAR TOGGLE ─── */
+.burger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text);
+  transition: transform 0.2s;
+}
+
+.burger-btn:hover {
+  transform: scale(1.1);
+}
+
+.sidebar-close {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.sidebar-close:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar.active {
+  transform: translateX(0) !important;
+}
+
 @media (max-width: 768px) {
+  .burger-btn {
+    display: block;
+  }
+
+  .sidebar-close {
+    display: block;
+  }
+
   .sidebar {
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.3);
   }
 
   .main {
@@ -2059,14 +2126,21 @@ body.dark .role-badge.tamu {
 
   .topbar {
     padding: 0 12px;
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 5px;
+    border-top: 1px solid var(--border-light);
+    padding-top: 8px;
   }
 
   .content {
     padding: 12px;
-  }
-
-  .topbar-right {
-    gap: 6px;
   }
 
   .datetime-container {
@@ -2076,6 +2150,33 @@ body.dark .role-badge.tamu {
   .date-full,
   .time-clock {
     font-size: 9px;
+  }
+
+  /* Responsive Login */
+  #loginPage {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .login-left {
+    padding: 30px 20px;
+    min-height: auto;
+  }
+
+  .login-right {
+    width: 100%;
+    padding: 30px 20px;
+    border-radius: 20px 20px 0 0;
+    margin-top: -20px;
+    flex: 1;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
   }
 }
 

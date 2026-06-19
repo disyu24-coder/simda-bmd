@@ -13,6 +13,9 @@
 
 <body>
 
+  <!-- SIDEBAR OVERLAY FOR MOBILE -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
   <!-- LOGIN PAGE -->
   <div id="loginPage">
     <div class="jet-animation">
@@ -90,7 +93,7 @@
   </div>
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo-area">
         <div class="logo-emblem"><img src="wajo.png" alt="Logo Kabupaten Wajo"></div>
@@ -100,6 +103,8 @@
         </div>
       </div>
       <div class="sidebar-badge">TA 2025</div>
+      <!-- Tombol Close untuk Mobile -->
+      <button class="sidebar-close" id="sidebarClose" onclick="toggleSidebar()">✕</button>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Utama</div>
@@ -155,6 +160,8 @@
   <div class="main">
     <header class="topbar">
       <div class="topbar-left">
+        <!-- Tombol Burger -->
+        <button class="burger-btn" id="burgerBtn" onclick="toggleSidebar()">☰</button>
         <div>
           <div class="page-title" id="pageTitle">Dashboard Inventaris BMD</div>
           <div class="breadcrumb">Beranda <span>›</span> <span id="breadcrumbSub">Dashboard</span></div>

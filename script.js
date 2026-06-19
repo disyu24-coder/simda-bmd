@@ -990,6 +990,15 @@ function loadTheme() {
   }
 }
 
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if (sidebar && overlay) {
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+  }
+}
+
 const PAGES = ['dashboard', 'inventaris', 'mutasi', 'penghapusan', 'penyusutan', 'pemeliharaan', 'pemanfaatan', 'kib', 'laporan', 'master', 'pengguna'];
 function showPage(id) {
   PAGES.forEach(p => {
@@ -1020,6 +1029,13 @@ function showPage(id) {
   if (id === 'laporan') {
     closeLaporanKibDetail(false);
     renderLaporanPage();
+  }
+  // Tutup sidebar setelah memilih halaman (untuk mobile)
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if (sidebar && overlay && window.innerWidth <= 768) {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
   }
 }
 
